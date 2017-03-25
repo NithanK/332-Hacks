@@ -1,3 +1,5 @@
+<h1>Cars Available</h1>
 <% @car.each do |car| %>
-    <h3><%= car['make'] %> <%= car['model'] %></h3>
+    <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> <button style="float: right;">Reserve!</button></h3>
 <% end %>
+<%= @car_array %>
