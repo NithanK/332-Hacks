@@ -1,1 +1,3 @@
-<%= @car.each %>
+<% @car.each do |car| %>
+    <h3><%= car['make'] %> <%= car['model'] %></h3>
+<% end %>
