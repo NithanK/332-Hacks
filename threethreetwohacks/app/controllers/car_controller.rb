@@ -1,7 +1,8 @@
 class CarController < ApplicationController
     require 'mysql2'
+     
     def index
-        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        @car = client.query("SELECT * FROM car")
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        @car = @client.query("SELECT * FROM car")
     end
 end
