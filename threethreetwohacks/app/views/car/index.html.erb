@@ -1,4 +1,4 @@
-<h1 style="text-align: center; margin: 0 auto;">Cars Available</h1><hr>
+<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><hr>
 <% @car.each do |car| %>
     <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<button style="float: right;">Reserve! $<%= car['daily_fee']%>/day</button><br><%= car['address'] %></h3>
     <p></p>
