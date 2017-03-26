@@ -1,8 +1,11 @@
 class CarRentalHistoryController < ApplicationController
     require 'mysql2'
     def index
+        puts params
+        vin = params['vin']
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        @carHistory =  @client.query("SELECT * FROM car INNER JOIN car_rental_history on car.VIN = car_rental_history.car_VIN")
+        query_string = "SELECT * FROM car INNER JOIN car_rental_history on car.VIN = car_rental_history.car_VIN WHERE VIN ="+vin
+        @carHistory =  @client.query(query_string)
         @carHistory_array = []
         @carHistory.each do |carHistory|
             carHistory_hash = {}
