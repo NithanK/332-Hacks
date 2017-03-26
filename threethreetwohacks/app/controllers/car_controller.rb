@@ -1,9 +1,54 @@
 class CarController < ApplicationController
-    require 'mysql2'
     def index
-        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        @car = client.query("SELECT * FROM car")
+
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        @car = @client.query("SELECT make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        # @car_array = []
+        # @car.each do |car|
+        #     car_hash = {}
+        #     car_hash['make'] = car['make']
+        #     car_hash['model'] = car['model']
+        #     car_hash['year'] = car['year']
+        #     car_hash['daily_fee'] = car['daily_fee']
+        #     car_hash['address'] = car['address']
+        #     @car_array.push(car_hash)
+        # end
+        # puts @client.query('select address from car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id and vin=1000;').first['address']
+    end
+    
+    def availability
         
+        # NOTE: TAKE INTO ACCOUNT THE LENGTH OF THE RESERVATION (this is currently day-by-day but some reservations last 5 days)
+        
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+         # get all the cars, unless they are reserved on that day
+        # find the vins to remove...
+        @date = params['date']
+        vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
+        vins_to_remove_array = []
+        vins_to_remove.each do |vin|
+            vins_to_remove_array.push(vin['car_vin'])
+        end
+        
+        # now get all the cars
+        @car = @client.query("SELECT vin, make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        @car_array = []
+        @car.each do |car|
+            unless vins_to_remove_array.include? car['vin']
+                car_hash = {}
+                car_hash['make'] = car['make']
+                car_hash['model'] = car['model']
+                car_hash['year'] = car['year']
+                car_hash['daily_fee'] = car['daily_fee']
+                car_hash['address'] = car['address']
+                @car_array.push(car_hash)
+            end
+        end
+        
+       
+        puts vins_to_remove_array
+
     end
     
     def show

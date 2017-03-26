@@ -4,6 +4,11 @@ Rails.application.routes.draw do
   get '/parking_locations', to: 'parking_locations#index'
 
   get '/cars/view', to: 'car#index'
+
   get '/cars/view/comment/:vin', to: 'car#show'
+
+
+  get'/cars/car_rental_history/:vin', to: 'car_rental_history#index' 
+  get '/cars/rent/:date', to: 'car#availability'
 
 end
