@@ -1,0 +1,19 @@
+<h1>Member Rental History</h1>
+<table>
+    <tr>
+        <th> Make</th>
+        <th>Model</th>
+        <th>date</th>
+        
+        
+    </tr>
+    
+    <% @memberRentHist_array.each do |memberRentHist| %>
+    <tr>
+        <td> <%= memberRentHist['make'] %></td>
+        <td> <%= memberRentHist['model'] %></td>
+        <td> <%= memberRentHist['date'] %></td>
+        
+    </tr>
+    <% end %>
+</table>
