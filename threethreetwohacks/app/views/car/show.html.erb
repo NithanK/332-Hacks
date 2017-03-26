@@ -1,0 +1,14 @@
+<h1>Comments</h1>
+ 
+   
+    <% @commentHistory.each do |comment| %>
+    
+        <%=comment['name']%>
+        <%=comment['comment']%>
+        <%=comment['rating']%>
+        <%=comment['make']%>
+        <%=comment['model']%>
+        <%=comment['year']%>
+        
+
+   <% end %>

@@ -1,0 +1,21 @@
+
+
+<TABLE> 
+    <TH><h3>Parking</h3></TH>
+    <TR>
+        
+        <TD><h3>Address</h3></TD>
+        <TD><h3>Number of Spaces</h3></TD>
+    
+    </TR>
+    <% @location.each do |loc| %>
+    <TR>
+    
+    
+        <TD><%= loc['address'] %></TD>
+        <TD><%= loc['num_spaces'] %></TD>
+        
+   
+    <TR>
+ <% end %>
+</TABLE>
