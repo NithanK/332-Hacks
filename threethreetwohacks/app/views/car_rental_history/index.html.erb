@@ -1,0 +1,36 @@
+<h1>Car Rental History</h1>
+<table>
+    <tr>
+        <th> Make</th>
+        <th>Model</th>
+        <th>Status</th>
+        <th>Distance</th>
+    </tr>
+    
+    <% @carHistory_array.each do |carHistory| %>
+    <tr>
+        <td> <%= carHistory['make'] %></td>
+        <td> <%= carHistory['model'] %></td>
+        <td> <%= carHistory['status_on_return'] %></td>
+        <td> <%= carHistory['distance'] %></td>
+        
+    </tr>
+    <% end %>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
