@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   get '/parking_locations', to: 'parking_locations#index'
 
   get '/cars/view', to: 'car#index'
+  get '/cars/view/comment/:vin', to: 'car#show'
 
 end
