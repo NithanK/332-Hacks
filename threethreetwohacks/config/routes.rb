@@ -10,11 +10,26 @@ Rails.application.routes.draw do
 
 
   get '/cars/view/comment/:vin', to: 'car#show'
-
-
+  
+  
   get'/cars/car_rental_history/:vin', to: 'car_rental_history#index' 
   get '/cars/rent/:date', to: 'car#availability'
   
+
   post '/new_comment', to: 'car#createComment'
+
+
+  get'/admin/members', to: 'member#index'
+  
+  get'/admin', to: 'admin#index'
+
+  post '/cars/create', to: 'car#create'
+  
+  
+  get    '/login',   to: 'sessions#new'
+  post   '/login',   to: 'sessions#create'
+  get   '/logout',  to: 'sessions#destroy'
+
+>>>>>>> origin/master
 
 end

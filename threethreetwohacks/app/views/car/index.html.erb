@@ -1,7 +1,12 @@
-<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><hr>
+<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><%= logged_in? %><hr>
 <% @car.each do |car| %>
     <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<span style="float: right;">$<%= car['daily_fee'] %>/day</span><br><%= car['address'] %></h3>
     <p></p>
 <% end %>
 <hr>
-<h1 style="text-align: center; margin: 0 auto;"><button>Add car</button></h1>
+<h1 style="text-align: center; margin: 0 auto;">Add car</h1>
+<%= form_tag('/cars/create', method: 'post') do %>
+    <%= label_tag(:make, "Make:") %>
+    <%= text_field_tag(:make) %>
+    <%= submit_tag("Submit") %>
+<% end %>

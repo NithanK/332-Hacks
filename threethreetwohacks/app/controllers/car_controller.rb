@@ -16,6 +16,10 @@ class CarController < ApplicationController
         # puts @client.query('select address from car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id and vin=1000;').first['address']
     end
     
+    def create
+        puts params['make']
+    end
+    
     def availability
         
         # NOTE: TAKE INTO ACCOUNT THE LENGTH OF THE RESERVATION (this is currently day-by-day but some reservations last 5 days)
