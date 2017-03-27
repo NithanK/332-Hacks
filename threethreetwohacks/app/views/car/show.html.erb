@@ -12,3 +12,15 @@
         
 
    <% end %>
+   
+   
+   <h1 style="text-align: center; margin: 0 auto;">Comment</h1>
+<%= form_tag('/new_comment', method: 'post') do %>
+     <%= label_tag(:newComment, "Comment:") %>
+     <%= text_field_tag(:newComment) %>
+     <%= label_tag(:rating, "Rate from 1-5:") %>
+     <%= text_field_tag(:rating) %>
+     <%= hidden_field_tag :vin, @vin %>
+     <%= submit_tag("Submit") %>
+<% end %> 
+   

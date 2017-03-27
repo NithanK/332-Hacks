@@ -56,9 +56,9 @@ class CarController < ApplicationController
     end
     
     def show
-        vin = params['vin']
+        @vin = params['vin']
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        @comment = client.query("select * from rental_comment inner join car ON rental_comment.car_VIN = car.vin inner join member ON rental_comment.member_member_number = member.member_number where VIN ="+vin)
+        @comment = client.query("select * from rental_comment inner join car ON rental_comment.car_VIN = car.vin inner join member ON rental_comment.member_member_number = member.member_number where VIN ="+@vin)
         
         @commentHistory = []
         @comment.each do |x|
@@ -71,5 +71,32 @@ class CarController < ApplicationController
             commentHistory_hash['year'] = x['year']
             @commentHistory.push(commentHistory_hash)
         end 
+    end 
+    
+    def createComment
+        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+        @comment = client.query("select * from rental_comment")
+        @commentHistory = []
+        
+        @comment.each do |x|
+            commentHistory_hash = {}
+            commentHistory_hash['car_VIN'] = x['car_VIN']
+            commentHistory_hash['member_member_number'] = x['member_member_number']
+            @commentHistory.push(commentHistory_hash)
+        end
+        
+        puts params['newComment']
+        puts params['vin']
+        puts params['rating']
+        
+        if @commentHistory[0].has_value?(params['vin'] && '50010')
+            puts 'works'
+        else
+            client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES ("+ params['vin'] + ", 50010 ," + params['rating'] +","+ params['newComment'] +");")
+        end
+        
+        
+        
     end 
 end

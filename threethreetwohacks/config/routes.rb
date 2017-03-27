@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get '/cars/rent/:date', to: 'car#availability'
   
 
+  post '/new_comment', to: 'car#createComment'
+
+
   get'/admin/members', to: 'member#index'
   
   get'/admin', to: 'admin#index'
@@ -27,5 +30,6 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   get   '/logout',  to: 'sessions#destroy'
 
+>>>>>>> origin/master
 
 end
