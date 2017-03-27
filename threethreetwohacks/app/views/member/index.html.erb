@@ -1,0 +1,26 @@
+<h1> Our members</h1>
+
+<table cellspacing ="15">
+<tr>
+    <th> Member Number</th>
+    <th> Name</th>
+    <th> Address</th>
+    <th> Phone</th>
+    <th> email</th>
+    <th> license_number</th>
+    <th> annual_fee</th>
+</tr>
+<% @member_array.each do |member| %>
+<tr>
+    <td><%= member['member_number']%> </td>
+    <td><%= member['name']%></td>
+    <td><%= member['address']%></td>
+    <td><%= member['phone']%></td>
+    <td><%= member['email']%></td>
+    <td><%= member['license_number']%></td>
+    <td><%= member['annual_fee']%> </td>
+    <td> <%= button_to 'See rental History', '/member/'+member['member_number']+'/rental_history', :method => :get %></td>
+    
+</tr>
+<% end %>
+</table>
