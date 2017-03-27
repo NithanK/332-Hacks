@@ -14,5 +14,7 @@ Rails.application.routes.draw do
 
   get'/cars/car_rental_history/:vin', to: 'car_rental_history#index' 
   get '/cars/rent/:date', to: 'car#availability'
+  
+  post '/new_comment', to: 'car#createComment'
 
 end
