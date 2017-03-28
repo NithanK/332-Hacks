@@ -1,4 +1,4 @@
-<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><%= logged_in? %><hr>
+<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><br>
 <% @car.each do |car| %>
     <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<span style="float: right;">$<%= car['daily_fee'] %>/day</span><br><%= car['address'] %></h3>
     <p></p>
@@ -7,8 +7,21 @@
     <hr>
     <h1 style="text-align: center; margin: 0 auto;">Add car</h1>
     <%= form_tag('/cars/create', method: 'post') do %>
-        <%= label_tag(:make, "Make:") %>
-        <%= text_field_tag(:make) %>
-        <%= submit_tag("Submit") %>
+        <%= hidden_field_tag(:vin, rand(10 ** 10)) %>
+        <%= label_tag(:parking_locations_pl_id, "Parking location:") %>
+        <br><%= select_tag(:parking_locations_pl_id, options_for_select(@address_to_id)) %>
+        <br><%= label_tag(:make, "Make:") %>
+        <br><%= text_field_tag(:make) %> 
+        <br><%= label_tag(:model, "Model:") %>
+        <br><%= text_field_tag(:model) %>
+        <br><%= label_tag(:year, "Year:") %>
+        <br><%= text_field_tag(:year) %>
+        <br><%= label_tag(:daily_fee, "Daily fee:") %>
+        <br><%= text_field_tag(:daily_fee) %>
+        <br><%= label_tag(:license_plate, "License plate") %>
+        <br><%= text_field_tag(:license_plate) %>
+        <br><%= label_tag(:colour, "Colour") %>
+        <br><%= text_field_tag(:colour) %>
+        <br><%= submit_tag("Submit") %>
     <% end %>
 <% end %>

@@ -5,10 +5,29 @@ class CarController < ApplicationController
         end
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         @car = @client.query("SELECT make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        lots = @client.query("select * from parking_location;")
+        @address_to_id = []
+        lots.each do |pl|
+            @address_to_id.push([pl['address'], pl['pl_id']])
+        end
     end
     
     def create
-        puts params['make']
+       vin = params['vin']
+       parking_locations_pl_id = params['parking_locations_pl_id']
+       make = params['make']
+       model = params['model']
+       year = params['year']
+       daily_fee = params['daily_fee']
+       license_plate = params['license_plate']
+       colour = params['colour']
+       @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+       querystring = 'insert into car (VIN, parking_locations_pl_id, make, model, year, daily_fee, license_plate, colour) values '
+       querystring += '("' + vin + '", "' + parking_locations_pl_id + '", "' + make + '", "' + model + '", "' + year + '", "'
+       querystring += daily_fee + '", "' + license_plate + '", "' + colour + '")'
+       # do the insert query
+       @client.query(querystring)
+       redirect_to '/cars/view'
     end
     
     def availability
