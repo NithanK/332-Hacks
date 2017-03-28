@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
     def new
-        
+        # just goes straight to the view
     end
     
     def create
@@ -20,9 +20,34 @@ class SessionsController < ApplicationController
                 member_number = member.first['member_number']
                 # set cookie (from sessions helper)
                 login member_number
-                redirect_to '/cars/view'
+                redirect_to '/'
             end
         end
+    end
+    
+    def signup
+        member_number = params['member_number']
+        name = params['name']
+        address = params['address']
+        phone = params['phone']
+        email = params['email']
+        license_number = params['license_number']
+        annual_fee = params['annual_fee']
+        
+        # create user
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        querystring = 'insert into member (member_number, name, address, phone, email, license_number, annual_fee) values ("'
+        querystring += member_number + '", "'
+        querystring += name + '", "'
+        querystring += address + '", "'
+        querystring += phone + '", "'
+        querystring += email + '", "'
+        querystring += license_number + '", "'
+        querystring += annual_fee + '")'
+        puts querystring
+        @client.query(querystring)
+        login member_number
+        redirect_to '/'
     end
     
     def destroy
