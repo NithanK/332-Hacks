@@ -4,6 +4,7 @@ profile
 <% if logged_in? %>
     <br>
     <%= current_user['name'] %>
+    <% if isAdmin? %> (admin account)<% end %>
     <br>
     <%= link_to "Log out", "/logout" %>
 <% end %>
