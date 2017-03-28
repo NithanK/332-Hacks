@@ -24,4 +24,8 @@ module SessionsHelper
         @current_user = nil
     end
     
+    def isAdmin?
+        current_user['email'] == "admin@queensu.ca"
+    end
+    
 end
