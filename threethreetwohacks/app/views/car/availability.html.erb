@@ -6,6 +6,13 @@
         <%= link_to '1 day >>', '/cars/rent/' + (Date.parse(@date) + 1).to_formatted_s(:db) %>
 </h1><hr>
 <% @car_array.each do |car| %>
-    <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<button style="float: right;">Reserve! $<%= car['daily_fee']%>/day</button><br><%= car['address'] %></h3>
+    <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)
+    <button style="float: right;">Reserve! $<%= car['daily_fee']%>/day</button><br><%= car['address'] %></h3>
+    <%= form_tag('/cars/rent/select', method: 'post') do %>
+        <%= label_tag(:length_days, "Days:") %>
+        <%= select_tag(:length_days, options_for_select(@length_options)) %>
+        <%= label_tag(:fee, " $#{car['daily_fee']}/day ") %>
+        <%= submit_tag("Submit") %>
+    <% end %>
     <p></p>
 <% end %>

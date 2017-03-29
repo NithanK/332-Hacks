@@ -60,8 +60,9 @@ class CarController < ApplicationController
             end
         end
         
+        @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
        
-        puts vins_to_remove_array
+        # puts vins_to_remove_array
 
     end
     
