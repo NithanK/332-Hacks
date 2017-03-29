@@ -1,5 +1,4 @@
 class CarController < ApplicationController
-    ENV['TZ'] = 'EST' # set the timezone
     def index
         if !logged_in?
             redirect_to '/login'
@@ -57,13 +56,14 @@ class CarController < ApplicationController
                 car_hash['year'] = car['year']
                 car_hash['daily_fee'] = car['daily_fee']
                 car_hash['address'] = car['address']
+                car_hash['vin'] = car['vin']
                 @car_array.push(car_hash)
             end
         end
         
+        @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
        
-        puts vins_to_remove_array
-
+        # puts vins_to_remove_array
     end
     
     def show
@@ -83,6 +83,24 @@ class CarController < ApplicationController
             @commentHistory.push(commentHistory_hash)
         end 
     end 
+    
+    def reserve
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        length_days = params['length_days'].to_i
+        start_date = Date.parse(params['date'])
+        start_date -= 1
+        car_VIN = params['car_VIN'].to_s
+        member_member_number = params['member_member_number'].to_s
+        access_code = params['access_code']
+        # make one reservation per day based on the length of days the user specified
+        (1..length_days).each do |i|
+            res_number = rand(9**9).to_s
+            res_date = start_date + i
+            querystring = 'insert into reservation (res_number, car_VIN, member_member_number, date, access_code,length_days) values('
+            querystring += '"' + res_number + '", "' + car_VIN + '", "' + member_member_number + '", "' + res_date.to_s + '", "' + access_code + '", 1)'
+            @client.query(querystring)
+        end
+    end
     
     def createComment
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
