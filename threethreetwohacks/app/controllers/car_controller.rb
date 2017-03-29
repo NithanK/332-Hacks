@@ -1,4 +1,5 @@
 class CarController < ApplicationController
+    ENV['TZ'] = 'EST' # set the timezone
     def index
         if !logged_in?
             redirect_to '/login'
@@ -38,7 +39,7 @@ class CarController < ApplicationController
         
          # get all the cars, unless they are reserved on that day
         # find the vins to remove...
-        @date = params['date']
+        @date = params['date'] || Date.today.to_formatted_s(:db) # default to today if date not supplied
         vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
         vins_to_remove_array = []
         vins_to_remove.each do |vin|
