@@ -1,0 +1,10 @@
+KTCS
+<br>
+profile
+<% if logged_in? %>
+    <br>
+    <%= current_user['name'] %>
+    <br>
+    <%= link_to "Log out", "/logout" %>
+<% end %>
+<hr>
