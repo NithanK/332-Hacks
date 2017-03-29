@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # homepage:
-  root 'car#index'
+  root 'car#availability'
+  # SET THE TIMEZONE IN THE CLI
+  # TZ=EST ruby -e 'puts Time.now'
   
   get '/parking_locations', to: 'parking_locations#index'
 
