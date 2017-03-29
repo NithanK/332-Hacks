@@ -124,8 +124,31 @@ class CarController < ApplicationController
         else
             client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES ("+ params['vin'] + ", 50010 ," + params['rating'] +","+ params['newComment'] +");")
         end
+    end  
+    
+    
+    
+    def createReply
+        vin = params['vin']
+        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        string = "SELECT * from rental_comment WHERE car_VIN=" + vin
+        @reply = client.query(string)
+        @reply_array = []
+        @reply.each do |reply|
+            reply_hash = {}
+            reply_hash["comment_reply"] = reply["comment_reply"]
+            reply_hash['car_VIN'] = reply['car_VIN']
+            @reply_array.push(reply_hash)
+        end
+    client.query("INSERT INTO rental_comment(comment_reply) VALUES ('"+ params['comment_reply'] +"');")
+    
+
+
+    end
+
+
+    
         
         
-        
-    end 
+    
 end

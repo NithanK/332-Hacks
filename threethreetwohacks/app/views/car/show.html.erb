@@ -13,6 +13,35 @@
 
    <% end %>
    
+   <% if isAdmin? %>
+   
+   <% @commentHistory.each do |comment| %>
+    
+        <%=comment['name']%>
+        <%=comment['comment']%> 
+        <%=comment['rating']%>
+        <%=comment['make']%>
+        <%=comment['model']%>
+        <%=comment['year']%>
+        
+
+   <% end %>
+   
+   <h1 style="text-align: center; margin: 0 auto;">Reply to Comment</h1>
+<%= form_tag('/new_reply', method: 'post') do %>
+     <%= label_tag(:comment_reply, "Reply:") %>
+     <%= text_field_tag(:comment_reply) %>
+       <%= hidden_field_tag :vin, @vin %>
+     <%= submit_tag("Submit") %>
+<% end %> 
+   <% end %>
+   
+   
+   
+   
+   
+   
+   
    
    <h1 style="text-align: center; margin: 0 auto;">Comment</h1>
 <%= form_tag('/new_comment', method: 'post') do %>
