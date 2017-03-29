@@ -1,5 +1,4 @@
 class CarController < ApplicationController
-    ENV['TZ'] = 'EST' # set the timezone
     def index
         if !logged_in?
             redirect_to '/login'
