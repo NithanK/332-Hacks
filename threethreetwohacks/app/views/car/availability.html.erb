@@ -1,4 +1,10 @@
-<h1 style="text-align: center; margin: 0 auto;">Cars available on <%= @date %></h1><hr>
+<h1 style="text-align: center; margin: 0 auto;">
+    <% if @date > Date.today.to_formatted_s(:db) %>
+        <%= link_to '<< 1 day', '/cars/rent/' + (Date.parse(@date) - 1).to_formatted_s(:db) %>
+    <% end %>
+    Cars available on <%= @date %>&nbsp;
+        <%= link_to '1 day >>', '/cars/rent/' + (Date.parse(@date) + 1).to_formatted_s(:db) %>
+</h1><hr>
 <% @car_array.each do |car| %>
     <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<button style="float: right;">Reserve! $<%= car['daily_fee']%>/day</button><br><%= car['address'] %></h3>
     <p></p>
