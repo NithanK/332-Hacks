@@ -102,6 +102,18 @@ class CarController < ApplicationController
         end
     end
     
+    def unlock
+        # add to car rental history
+        # make it so that button changes from "unlock" to no more button. just shows access code
+        # add column 'unlocked' yes/no to reservation table
+        # redirect to car show page
+    end
+    
+    def return_car
+        # remove records from reservations table
+        # redirect to cars availability page
+    end
+    
     def createComment
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         

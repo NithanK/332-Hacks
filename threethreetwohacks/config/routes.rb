@@ -7,8 +7,11 @@ Rails.application.routes.draw do
   # features for all users
   get   '/parking_locations', to:           'parking_locations#index'
   get   '/cars/view/comment/:vin', to:      'car#show'
+  get   '/cars/view/:vin', to:              'car#show'
   get   '/cars/rent/:date', to:             'car#availability'
   post  '/cars/rent/select', to:            'car#reserve'
+  post  '/cars/rent/unlock', to:            'car#unlock'
+  post  '/cars/rent/return_car', to:        'car#return_car'
   post  '/new_comment', to:                 'car#createComment'
   get   '/member/profile', to:              'member#profile'
   get   '/member/reservations', to:         'member#reservations'
