@@ -18,8 +18,20 @@ class MemberController < ApplicationController
             memeber_hash['annual_fee'] = member['annual_fee']
             @member_array.push(memeber_hash)
         end
-
+    end
+    
+    def profile
+        # just go straight to view
+        puts 'profile'
+    end
+    
+    def reservations
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        querystring = 'select *, count(access_code) as length_days from (select * from reservation where member_member_number='
+        querystring += current_user['member_number']
+        querystring += ' order by date asc) as T1 group by access_code'
+        @reservation = @client.query(querystring)
+    end
             
         
-    end
 end
