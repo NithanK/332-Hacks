@@ -29,8 +29,12 @@ class MemberController < ApplicationController
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         querystring = 'select *, count(access_code) as length_days from (select * from reservation where member_member_number='
         querystring += current_user['member_number']
-        querystring += ' order by date asc) as T1 group by access_code'
+        querystring += ' order by date asc) as T1 inner join car on T1.car_VIN = car.vin group by access_code'
         @reservation = @client.query(querystring)
+        # add additional info to reservation
+        @reservation.each do |res|
+            res['display'] = "yes"
+        end
     end
             
         

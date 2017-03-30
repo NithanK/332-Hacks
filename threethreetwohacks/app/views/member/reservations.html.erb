@@ -1,8 +1,12 @@
 <h1>My Reservations</h1>
 <% @reservation.each do |res| %>
-    <!-- add logic for when to display a reservation (current date - length of days) > res_date -->
-    <%= res['date'] %> | <%= res['length_days'] %> days | <%= res['car_VIN'] %> (switch this to car make and model)
-    <button>unlock</button> (add logic for when to enable unlock button)
+    <!-- add logic for when to display a reservation, something like (current date - length of days) > res_date -->
+    <%= res['date'] %> | <%= res['make'] %> <%= res['model'] %> | <%= res['length_days'] %> days 
+    <% if (Date.parse(res['date'].to_s) <= Date.today) %>
+        <button>unlock</button>
+    <% else %>
+        <button disabled>not yet available</button>
+    <% end %>
     <!-- also add what happens when user presses unlock -->
     <br>
 <% end %>
