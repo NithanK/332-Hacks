@@ -103,13 +103,24 @@ class CarController < ApplicationController
     end
     
     def unlock
-        # add to car rental history
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        access_code = params['access_code']
+        unlocked = params['unlocked']
+
+        unless unlocked == 'yes'
+            querystring = "update reservation set unlocked='yes' where access_code='#{access_code}'"
+            # @client.query(querystring)
+        end
+        
+        
+        # add to car rental history with status of 'not_yet_returned'
         # make it so that button changes from "unlock" to no more button. just shows access code
         # add column 'unlocked' yes/no to reservation table
         # redirect to car show page
     end
     
     def return_car
+        # update car's rental history with dropoff reading
         # remove records from reservations table
         # redirect to cars availability page
     end
