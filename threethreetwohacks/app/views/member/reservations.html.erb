@@ -1,29 +1,34 @@
 <h1>My Reservations</h1>
 <% @reservation.each do |res| %>
     <!-- display information about the reservation -->
-    <strong><%= res['date'] %></strong><br><%= res['make'] %> <%= res['model'] %><br>days: <%= res['length_days'] %><br>
+    <strong><%= res['date'] %></strong><br><%= res['make'] %> <%= res['model'] %> (<%= res['year'] %>)
+    <br>License plate: <%= res['license_plate'] %>
+    <br>days: <%= res['length_days'] %><br>
     Pickup location: <%= @pl_id_to_address[res['parking_locations_pl_id']] %> <br>
     <!-- if today is equal to or later than the start date of the reservation, you may unlock the car -->
     <% if (Date.parse(res['date'].to_s) <= Date.today) %>
-        Car is ready to unlock with access code: <%= res['access_code'] %>
-        <!-- show an unlock button which sends the res data back to the controller when clicked -->
-        <%= form_tag('/cars/rent/unlock', method: 'post') do %>
-            <%= hidden_field_tag(:res_number, res['res_number']) %>
-            <%= hidden_field_tag(:car_VIN, res['car_VIN']) %>
-            <%= hidden_field_tag(:member_member_number, res['member_member_number']) %>
-            <%= hidden_field_tag(:date, res['date']) %>
-            <%= hidden_field_tag(:access_code, res['access_code']) %>
-            <%= hidden_field_tag(:length_days, res['length_days']) %>
-            <%= hidden_field_tag(:unlocked, res['unlocked']) %>
-            <!-- ask for pickup odometer reading -->
-            <%= label_tag(:pu_reading, "Odometer reading: ") %>
-            <%= text_field_tag(:pu_reading) %>
-            <%= submit_tag("Start Driving") %>
-        <% end %>
         
+        <% if res['unlocked'] != 'yes' %>
+            Car is ready to unlock with access code: <%= res['access_code'] %>
+            <!-- show an unlock button which sends the res data back to the controller when clicked -->
+            <%= form_tag('/cars/rent/unlock', method: 'post') do %>
+                <%= hidden_field_tag(:res_number, res['res_number']) %>
+                <%= hidden_field_tag(:car_VIN, res['car_VIN']) %>
+                <%= hidden_field_tag(:member_member_number, res['member_member_number']) %>
+                <%= hidden_field_tag(:date, res['date']) %>
+                <%= hidden_field_tag(:access_code, res['access_code']) %>
+                <%= hidden_field_tag(:length_days, res['length_days']) %>
+                <%= hidden_field_tag(:unlocked, res['unlocked']) %>
+                <!-- ask for pickup odometer reading -->
+                <%= label_tag(:pu_reading, "Odometer reading: ") %>
+                <%= text_field_tag(:pu_reading) %>
+                <%= submit_tag("Start Driving") %>
+            <% end %>
+
+        <% end %>
         <!-- return button displays if user has already unlocked the car -->
         <% if res['unlocked'] == 'yes' %>
-            Car has been unlocked. <button id="<%= res['access_code'] %>">Return car</button>
+            Car has been unlocked. <button id="<%= res['access_code'] %>">Return car</button><br>
         <% end %>
         
     <% else %>
