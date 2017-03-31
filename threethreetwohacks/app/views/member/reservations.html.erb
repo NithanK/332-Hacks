@@ -28,7 +28,17 @@
         <% end %>
         <!-- return button displays if user has already unlocked the car -->
         <% if res['unlocked'] == 'yes' %>
-            Car has been unlocked. <button id="<%= res['access_code'] %>">Return car</button><br>
+            Car has been unlocked. 
+            <%= form_tag('/cars/rent/return_car', method: 'post') do %>
+                <%= hidden_field_tag(:res_number, res['res_number']) %>
+                <%= hidden_field_tag(:car_VIN, res['car_VIN']) %>
+                <%= hidden_field_tag(:member_member_number, res['member_member_number']) %>
+                <%= hidden_field_tag(:date, res['date']) %>
+                <!-- ask for dropoff odometer reading -->
+                <%= label_tag(:do_reading, "Odometer reading: ") %>
+                <%= text_field_tag(:do_reading) %>
+                <%= submit_tag("Return Car") %>
+            <% end %>
         <% end %>
         
     <% else %>

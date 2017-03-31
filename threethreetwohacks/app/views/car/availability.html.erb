@@ -7,17 +7,18 @@
 </h1><hr>
 <% @car_array.each do |car| %>
     <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)
-    <button style="float: right;">Reserve! $<%= car['daily_fee']%>/day</button><br><%= car['address'] %></h3>
-    <%= form_tag('/cars/rent/select', method: 'post') do %>
-        <%= label_tag(:length_days, "Days:") %>
-        <%= select_tag(:length_days, options_for_select(@length_options)) %>
-        <%= label_tag(:fee, " $#{car['daily_fee']}/day ") %>
-        <%= hidden_field_tag(:res_number, rand(8 ** 8)) %>
-        <%= hidden_field_tag(:car_VIN, car['vin']) %>
-        <%= hidden_field_tag(:member_member_number, current_user['member_number']) %>
-        <%= hidden_field_tag(:date, @date) %>
-        <%= hidden_field_tag(:access_code, rand(15**15)) %>
-        <%= submit_tag("Reserve") %>
-    <% end %>
+    <div style="float: right;">
+        <%= form_tag('/cars/rent/select', method: 'post') do %>
+            <%= label_tag(:length_days, "Days:") %>
+            <%= select_tag(:length_days, options_for_select(@length_options)) %>
+            <%= label_tag(:fee, " $#{car['daily_fee']}/day ") %>
+            <%= hidden_field_tag(:res_number, rand(8 ** 8)) %>
+            <%= hidden_field_tag(:car_VIN, car['vin']) %>
+            <%= hidden_field_tag(:member_member_number, current_user['member_number']) %>
+            <%= hidden_field_tag(:date, @date) %>
+            <%= hidden_field_tag(:access_code, rand(15**15)) %>
+            <%= submit_tag("Reserve") %>
+        <% end %>
+    </div></h3>
     <p></p>
 <% end %>
