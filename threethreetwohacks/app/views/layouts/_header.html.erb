@@ -1,9 +1,9 @@
-KTCS
+<%= link_to "KTCS", "/" %>
 <br>
 profile
 <% if logged_in? %>
     <br>
-    <%= current_user['name'] %>
+    <%= link_to "#{current_user['name']}", "/member/profile" %>
     <% if isAdmin? %> (admin account)<% end %>
     <br>
     <%= link_to "Log out", "/logout" %>
