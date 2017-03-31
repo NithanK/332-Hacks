@@ -129,18 +129,25 @@ class CarController < ApplicationController
     
     
     def createReply
-        vin = params['vin']
+        vin = params['car_VIN']
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        string = "SELECT * from rental_comment WHERE car_VIN=" + vin
-        @reply = client.query(string)
+        newRep = "SELECT * from rental_comment" #hardcoded b/c broken
+        getMem = "SELECT member_member_number FROM rental_comment WHERE car_VIN = 1030"
+        @reply = client.query(newRep)
         @reply_array = []
         @reply.each do |reply|
             reply_hash = {}
             reply_hash["comment_reply"] = reply["comment_reply"]
             reply_hash['car_VIN'] = reply['car_VIN']
+            reply_hash['member_member_number'] = reply['member_member_number']
+            
             @reply_array.push(reply_hash)
         end
-    client.query("INSERT INTO rental_comment(comment_reply) VALUES ('"+ params['comment_reply'] +"');")
+        puts @reply
+        #insertion = "INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment,comment_reply) VALUES ('1030','50000','','', '" + params['comment_reply'] + "')"
+        #insertion = "UPDATE rental_comment SET comment_reply ="'+ params['comment_reply']' + "WHERE car_VIN ="' +params['car_VIN']+ '" + 
+     #client.query(insertion)
+    
     
 
 

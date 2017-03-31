@@ -16,6 +16,7 @@
    <% if isAdmin? %>
    
    <% @commentHistory.each do |comment| %>
+   <div id="<% comment['member_member_number'] %>">
     
         <%=comment['name']%>
         <%=comment['comment']%> 
@@ -23,7 +24,7 @@
         <%=comment['make']%>
         <%=comment['model']%>
         <%=comment['year']%>
-        
+    </div>
 
    <% end %>
    
@@ -31,7 +32,8 @@
 <%= form_tag('/new_reply', method: 'post') do %>
      <%= label_tag(:comment_reply, "Reply:") %>
      <%= text_field_tag(:comment_reply) %>
-       <%= hidden_field_tag :vin, @vin %>
+     <%= hidden_field_tag :vin, @vin %>
+     <%= hidden_field_tag :member_member_number, @member_member_number %>
      <%= submit_tag("Submit") %>
 <% end %> 
    <% end %>
