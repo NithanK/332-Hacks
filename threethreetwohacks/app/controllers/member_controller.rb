@@ -18,8 +18,28 @@ class MemberController < ApplicationController
             memeber_hash['annual_fee'] = member['annual_fee']
             @member_array.push(memeber_hash)
         end
-
+    end
+    
+    def profile
+        # just go straight to view
+        puts 'profile'
+    end
+    
+    def reservations
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        querystring = 'select *, count(access_code) as length_days from (select * from reservation where member_member_number='
+        querystring += current_user['member_number']
+        querystring += ' order by date asc) as T1 inner join car on T1.car_VIN = car.vin group by access_code order by date'
+        @reservation = @client.query(querystring)
+        
+        # create hash to translate parking lot id to address
+        querystring2 = 'select * from parking_location'
+        lots = @client.query(querystring2)
+        @pl_id_to_address = {}
+        lots.each do |lot|
+            @pl_id_to_address[lot['pl_id']] = lot['address']
+        end
+    end
             
         
-    end
 end

@@ -100,6 +100,47 @@ class CarController < ApplicationController
             querystring += '"' + res_number + '", "' + car_VIN + '", "' + member_member_number + '", "' + res_date.to_s + '", "' + access_code + '", 1)'
             @client.query(querystring)
         end
+        
+        # redirect to car show page
+        redirect_to "/cars/view/#{car_VIN}"
+    end
+    
+    def unlock
+        
+        # NOTE: ADD THE PICKUP TIME, AND PICKUP STATUS (COLUMNS IN THE DB)
+        
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        access_code = params['access_code']
+        unlocked = params['unlocked']
+        vin = params['car_VIN']
+        date = params['date']
+        member_member_number = current_user['member_number']
+        pu_reading = params['pu_reading']
+        do_reading = pu_reading # temporarily identical in 'not_yet_returned' status
+        status_on_return = 'not_yet_returned'
+        distance = 0
+
+        unless unlocked == 'yes'
+            # set reservation as unlocked
+            querystring = "update reservation set unlocked='yes' where access_code='#{access_code}'"
+            @client.query(querystring)
+            querystring2 = "insert into car_rental_history (car_VIN, date, member_member_number, pu_reading, do_reading, status_on_return, distance)"
+           
+            # add to car rental history with status of 'not_yet_returned'
+            querystring2 += " values ('#{vin}', '#{date}', '#{member_member_number}', #{pu_reading}, #{do_reading}, '#{status_on_return}', #{distance})"
+            @client.query(querystring2)
+        end
+        
+        # redirect to car show page
+        redirect_to "/cars/view/#{vin}"
+    end
+    
+    def return_car
+        # NOTE: ADD THE DROPOFF TIME COLUMN IN DB
+        
+        # update car's rental history with dropoff reading
+        # remove records from reservations table
+        # redirect to cars availability page
     end
     
     def createComment

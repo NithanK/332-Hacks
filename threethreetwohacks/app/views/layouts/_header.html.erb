@@ -1,11 +1,13 @@
-KTCS
-<br>
-profile
 <% if logged_in? %>
+    KTCS<br>
+    <%= link_to "Rent A Car!", "/" %>
+    | <%= link_to "Locations", "/parking_locations" %>
     <br>
-    <%= current_user['name'] %>
+    Profile: <%= link_to "#{current_user['name']}", "/member/profile" %>
     <% if isAdmin? %> (admin account)<% end %>
     <br>
     <%= link_to "Log out", "/logout" %>
+<% else %>
+    <%= link_to "KTCS", "/login" %>
 <% end %>
 <hr>
