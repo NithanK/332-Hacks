@@ -100,9 +100,15 @@ class CarController < ApplicationController
             querystring += '"' + res_number + '", "' + car_VIN + '", "' + member_member_number + '", "' + res_date.to_s + '", "' + access_code + '", 1)'
             @client.query(querystring)
         end
+        
+        # redirect to car show page
+        redirect_to "/cars/view/#{car_VIN}"
     end
     
     def unlock
+        
+        # NOTE: ADD THE PICKUP TIME, AND PICKUP STATUS (COLUMNS IN THE DB)
+        
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         access_code = params['access_code']
         unlocked = params['unlocked']
@@ -130,6 +136,8 @@ class CarController < ApplicationController
     end
     
     def return_car
+        # NOTE: ADD THE DROPOFF TIME COLUMN IN DB
+        
         # update car's rental history with dropoff reading
         # remove records from reservations table
         # redirect to cars availability page
