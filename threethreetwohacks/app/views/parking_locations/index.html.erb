@@ -1,5 +1,3 @@
-
-
 <TABLE> 
     <TH><h3>Parking</h3></TH>
     <TR>
@@ -10,10 +8,15 @@
     </TR>
     <% @location.each do |loc| %>
     <TR>
-    
-    
-        <TD><%= loc['address'] %></TD>
+    <% if isAdmin? %>
+    <TD><%= link_to loc['address'], "/parking_locations/#{loc['address']}" %></TD>
+        <!--<TD><%= loc['address'] %></TD>-->
         <TD><%= loc['num_spaces'] %></TD>
+    <% else %>
+        <TD><%= loc['address'] %>
+         <TD><%= loc['num_spaces'] %></TD>
+        
+    <% end %>
         
    
     <TR>

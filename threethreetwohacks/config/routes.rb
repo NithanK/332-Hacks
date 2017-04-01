@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   # features for all users
   get   '/parking_locations', to:           'parking_locations#index'
+  get   '/parking_locations/:location', to: 'parking_locations#availability'
   get   '/cars/view/comment/:vin', to:      'car#show'
   get   '/cars/view/:vin', to:              'car#show'
   get   '/cars/rent/:date', to:             'car#availability'
