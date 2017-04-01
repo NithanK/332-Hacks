@@ -5,6 +5,9 @@
         <%= link_to "Rent A Car!", "/" %>&nbsp;
         | <%= link_to "Locations", "/parking_locations" %>&nbsp;
         | <%= link_to "#{current_user['name']}", "/member/profile" %><% if isAdmin? %> (admin account)<% end %>&nbsp;
+        <% if isAdmin? %>
+        | <%= link_to "Fleet", '/cars/view' %>
+        <% end %>
         | <%= link_to "Log out", "/logout" %>
     </h3></td></tr></table>
 <% else %>

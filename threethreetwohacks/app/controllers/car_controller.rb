@@ -4,7 +4,7 @@ class CarController < ApplicationController
             redirect_to '/login'
         end
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        @car = @client.query("SELECT make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        @car = @client.query("SELECT vin, make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
         lots = @client.query("select * from parking_location;")
         @address_to_id = []
         lots.each do |pl|
