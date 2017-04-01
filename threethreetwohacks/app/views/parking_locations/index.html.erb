@@ -1,7 +1,7 @@
 
-
-<TABLE> 
-    <TH><h3>Parking</h3></TH>
+<div style="display: block; margin: 0 auto;">
+<h1>Parking</h1><TABLE> 
+    <TH></TH>
     <TR>
         
         <TD><h3>Address</h3></TD>
@@ -12,10 +12,22 @@
     <TR>
     
     
-        <TD><%= loc['address'] %></TD>
+        <TD style="width:50vh;"><%= loc['address'] %></TD>
         <TD><%= loc['num_spaces'] %></TD>
         
    
     <TR>
  <% end %>
-</TABLE>
+</TABLE></div>
+
+<% if isAdmin? %>
+    <hr><h2>Add new location</h2>
+    <%= form_tag('/parking_locations/create', method: 'post') do %>
+        <%= hidden_field_tag(:pl_id, rand(12 ** 12)) %>
+        <%= label_tag(:address, "Address:") %>
+        <br><%= text_field_tag(:address) %> 
+        <br><%= label_tag(:num_spaces, "Number of spaces:") %>
+        <br><%= text_field_tag(:num_spaces) %>
+        <br><%= submit_tag("Submit") %>
+    <% end %>
+<% end %>
