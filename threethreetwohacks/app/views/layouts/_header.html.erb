@@ -1,13 +1,14 @@
 <% if logged_in? %>
-    KTCS<br>
-    <%= link_to "Rent A Car!", "/" %>
-    | <%= link_to "Locations", "/parking_locations" %>
-    <br>
-    Profile: <%= link_to "#{current_user['name']}", "/member/profile" %>
-    <% if isAdmin? %> (admin account)<% end %>
-    <br>
-    <%= link_to "Log out", "/logout" %>
+    <table><tr><td style="width:30%;">
+        <h1 class='logo'>KTCS</h1>
+    </td><td><h3>
+        <%= link_to "Rent A Car!", "/" %>&nbsp;
+        | <%= link_to "Locations", "/parking_locations" %>&nbsp;
+        | <%= link_to "#{current_user['name']}", "/member/profile" %><% if isAdmin? %> (admin account)<% end %>&nbsp;
+        | <%= link_to "Log out", "/logout" %>
+    </h3></td></tr></table>
 <% else %>
+    <br>
     <%= link_to "KTCS", "/login" %>
 <% end %>
-<hr>
+<br><br>

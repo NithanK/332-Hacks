@@ -31,6 +31,9 @@ class CarController < ApplicationController
     end
     
     def availability
+        if !logged_in?
+            redirect_to '/login'
+        end
         
         # NOTE: TAKE INTO ACCOUNT THE LENGTH OF THE RESERVATION (this is currently day-by-day but some reservations last 5 days)
         
@@ -195,7 +198,6 @@ class CarController < ApplicationController
             client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES (#{params['vin']},#{session[:member_number]},#{params['rating']},'#{params["newComment"]}');")
         end
     end  
-    
     
     
     def createReply

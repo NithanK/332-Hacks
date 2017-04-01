@@ -6,10 +6,11 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Roboto:300" rel="stylesheet">
+    <div class="header"><%= render "layouts/header" %></div><br><br>
   </head>
 
   <body>
-    <%= render "layouts/header" %>
-    <%= yield %>
+    <div class="site-body"><%= yield %></div>
   </body>
 </html>
