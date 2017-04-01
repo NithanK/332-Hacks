@@ -3,6 +3,11 @@ Rails.application.routes.draw do
 
   # homepage:
   root 'car#availability'
+  # SET THE TIMEZONE IN THE CLI
+  # TZ=EST ruby -e 'puts Time.now'
+  
+ 
+
 
   # features for all users
   get   '/parking_locations', to:           'parking_locations#index'
@@ -25,6 +30,7 @@ Rails.application.routes.draw do
   get   '/cars/view', to:                   'car#index'
   post  '/cars/create', to:                 'car#create'
   get   '/cars/car_rental_history/:vin', to:'car_rental_history#index' 
+  post '/new_reply', to:                    "car#createReply"
   post  '/parking_locations/create', to:    'parking_locations#create'
 
   # sesssions features
