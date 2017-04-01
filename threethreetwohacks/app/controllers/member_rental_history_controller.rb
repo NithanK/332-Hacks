@@ -13,8 +13,8 @@ class MemberRentalHistoryController < ApplicationController
             memberRentHist_hash['date'] = memberRentHist['date']
             memberRentHist_hash['make'] = memberRentHist['make']
             memberRentHist_hash['model'] = memberRentHist['model']
-            
             @memberRentHist_array.push(memberRentHist_hash)
+            
             
             
         
