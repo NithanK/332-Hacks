@@ -5,6 +5,16 @@ class ParkingLocationsController < ApplicationController
         @location = client.query("SELECT * FROM parking_location")
        
     end 
+
+    def create
+        address = params['address']
+        pl_id = params['pl_id']
+        num_spaces = params['num_spaces']
+        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        client.query("insert into parking_location (pl_id, address, num_spaces) values ('#{pl_id}','#{address}','#{num_spaces}')")
+        redirect_to '/parking_locations'
+    end
+
     
     def availability
         
@@ -57,4 +67,5 @@ class ParkingLocationsController < ApplicationController
         @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
         
     end 
+
 end

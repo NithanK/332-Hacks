@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get   '/cars/view', to:                   'car#index'
   post  '/cars/create', to:                 'car#create'
   get   '/cars/car_rental_history/:vin', to:'car_rental_history#index' 
+  post  '/parking_locations/create', to:    'parking_locations#create'
 
   # sesssions features
   get   '/login',   to:                     'sessions#new'
