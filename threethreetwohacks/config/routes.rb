@@ -9,12 +9,9 @@ Rails.application.routes.draw do
  
 
 
- 
-  
- 
-
   # features for all users
   get   '/parking_locations', to:           'parking_locations#index'
+  get   '/parking_locations/:location', to: 'parking_locations#availability'
   get   '/cars/view/comment/:vin', to:      'car#show'
   get   '/cars/view/:vin', to:              'car#show'
   get   '/cars/rent/:date', to:             'car#availability'
@@ -34,6 +31,7 @@ Rails.application.routes.draw do
   post  '/cars/create', to:                 'car#create'
   get   '/cars/car_rental_history/:vin', to:'car_rental_history#index' 
   post '/new_reply', to:                    "car#createReply"
+  post  '/parking_locations/create', to:    'parking_locations#create'
 
   # sesssions features
   get   '/login',   to:                     'sessions#new'

@@ -1,0 +1,14 @@
+<h1>Cars Available at this location</h1>
+
+
+<h1>Available</h1>
+<% @car_array.each do |unbanned| %>
+    <%= unbanned['make'] %>
+<% end %>
+
+<h1>Reserved</h1>
+<% @car_array_remove.each do |banned| %>
+    <%= banned['make'] %>
+<% end %>
+
+

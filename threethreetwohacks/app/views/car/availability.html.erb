@@ -1,12 +1,13 @@
-<h1 style="text-align: center; margin: 0 auto;">
+<h1 class="white" style="text-align: center; margin: 0 auto; padding-right:40px;">
     <% if @date > Date.today.to_formatted_s(:db) %>
         <%= link_to '<< 1 day', '/cars/rent/' + (Date.parse(@date) - 1).to_formatted_s(:db) %>
     <% end %>
     Cars available on <%= @date %>&nbsp;
         <%= link_to '1 day >>', '/cars/rent/' + (Date.parse(@date) + 1).to_formatted_s(:db) %>
-</h1><hr>
+</h1><br><br>
 <% @car_array.each do |car| %>
-    <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)
+    <h3 style="width:40%; margin: 0 auto; padding-right:40px;"">
+    <%= link_to "#{car['make']} #{car['model']} (#{car['year']})", "cars/view/#{car['vin']}"%>
     <div style="float: right;">
         <%= form_tag('/cars/rent/select', method: 'post') do %>
             <%= label_tag(:length_days, "Days:") %>

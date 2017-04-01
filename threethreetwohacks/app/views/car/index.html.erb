@@ -1,8 +1,8 @@
-<h1 style="text-align: center; margin: 0 auto;">Fleet</h1><br>
+<h1 style="text-align: center; margin: 0 auto; padding-right: 50px;">Fleet</h1><br>
 <% @car.each do |car| %>
-    <h3 style="width:40%; margin: 0 auto;"><%= car['make'] %> <%= car['model'] %> (<%= car['year'] %>)<span style="float: right;">$<%= car['daily_fee'] %>/day</span>
-    <br><%= car['address'] %>
-    <br><button>See rental history</button></h3>
+    <h3 style="width:40%; margin: 0 auto; padding-right: 50px;""><%= link_to "#{car['make']} #{car['model']} (#{car['year']})", "view/#{car['vin']}"%>
+    <span style="float: right;">$<%= car['daily_fee'] %>/day</span>
+    <br><%= car['address'] %></h3>
     <p></p>
 <% end %>
 <% if isAdmin? %>
@@ -26,4 +26,5 @@
         <br><%= text_field_tag(:colour) %>
         <br><%= submit_tag("Submit") %>
     <% end %>
+    <br><br>
 <% end %>
