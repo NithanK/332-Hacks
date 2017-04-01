@@ -26,8 +26,11 @@ class ParkingLocationsController < ApplicationController
          vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
         vins_to_remove_array = []
         vins_to_remove.each do |vin|
+            puts vin
             vins_to_remove_array.push(vin['car_vin'])
         end
+        puts '@@@@@'
+        puts vins_to_remove_array
         
         puts ('HELELEOEOEOEEOEOEO')
         puts params['location']
@@ -38,9 +41,11 @@ class ParkingLocationsController < ApplicationController
         @car_array = []
         puts @car.each
         @car.each do |car|
- 
+            puts '%%%%%%%%%%%'
+            puts car['address']
             
-            if vins_to_remove_array.include? car['vin'] && params['location'] == car['address']
+            if vins_to_remove_array.include? car['vin'] and params['location'] == car['address']
+                puts "!!!!!!!!!!!!!"
                 car_hash_remove = {}
                 car_hash_remove['make'] = car['make']
                 car_hash_remove['model'] = car['model']
@@ -60,8 +65,8 @@ class ParkingLocationsController < ApplicationController
                 @car_array.push(car_hash)
             end
         end
-        puts '**************************'
         puts @car_array
+        puts '**************************'
         puts @car_array_remove
             
         @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
