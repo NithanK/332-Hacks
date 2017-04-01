@@ -4,10 +4,6 @@ Rails.application.routes.draw do
   # homepage:
   root 'car#availability'
 
- 
-  
- 
-
   # features for all users
   get   '/parking_locations', to:           'parking_locations#index'
   get   '/cars/view/comment/:vin', to:      'car#show'
