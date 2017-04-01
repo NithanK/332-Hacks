@@ -1,7 +1,9 @@
 
+
 <div style="display: block; margin: 0 auto;">
 <h1>Parking</h1><TABLE> 
     <TH></TH>
+
     <TR>
         
         <TD><h3>Address</h3></TD>
@@ -10,10 +12,16 @@
     </TR>
     <% @location.each do |loc| %>
     <TR>
-    
-    
-        <TD style="width:50vh;"><%= loc['address'] %></TD>
+
+    <% if isAdmin? %>
+    <TD style="width:50vh;><%= link_to loc['address'], "/parking_locations/#{loc['address']}" %></TD>
+        <!--<TD><%= loc['address'] %></TD>-->
         <TD><%= loc['num_spaces'] %></TD>
+    <% else %>
+        <TD><%= loc['address'] %>
+         <TD><%= loc['num_spaces'] %></TD>
+        
+    <% end %>
         
    
     <TR>
