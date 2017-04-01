@@ -160,10 +160,12 @@ class CarController < ApplicationController
         puts params['vin']
         puts params['rating']
         
-        if @commentHistory[0].has_value?(params['vin'] && '50010')
-            puts 'works'
+       
+        
+        if @commentHistory[0].has_value?(params['vin']) && @commentHistory[0].has_value?(session[:member_number])
+            client.query("update rental_comment set rating = #{params['rating']},comment='#{params["newComment"]}' where member_member_number = #{session[:member_number]};")
         else
-            client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES ("+ params['vin'] + ", 50010 ," + params['rating'] +","+ params['newComment'] +");")
+            client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES (#{params['vin']},#{session[:member_number]},#{params['rating']},'#{params["newComment"]}');")
         end
         
         
