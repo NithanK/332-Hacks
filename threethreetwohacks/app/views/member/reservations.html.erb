@@ -7,7 +7,7 @@
     Pickup location: <%= @pl_id_to_address[res['parking_locations_pl_id']] %> <br>
     <!-- if today is equal to or later than the start date of the reservation, you may unlock the car -->
     <% if (Date.parse(res['date'].to_s) <= Date.today) %>
-        
+        <!-- user has not unlocked car yet, meaning they may pick it up -->
         <% if res['unlocked'] != 'yes' %>
             Car is ready to unlock with access code: <%= res['access_code'] %>
             <!-- show an unlock button which sends the res data back to the controller when clicked -->
@@ -22,11 +22,13 @@
                 <!-- ask for pickup odometer reading -->
                 <%= label_tag(:pu_reading, "Odometer reading: ") %>
                 <%= text_field_tag(:pu_reading) %>
+                <%= label_tag(:status_on_pickup, "Car status: ") %>
+                <%= select_tag(:status_on_pickup, options_for_select([['normal','normal'],['damaged','damaged'],['not running','not running']])) %>
                 <%= submit_tag("Start Driving") %>
             <% end %>
 
         <% end %>
-        <!-- return button displays if user has already unlocked the car -->
+        <!-- if user has already unlocked, then they may return the car -->
         <% if res['unlocked'] == 'yes' %>
             Car has been unlocked. 
             <%= form_tag('/cars/rent/return_car', method: 'post') do %>
@@ -34,9 +36,12 @@
                 <%= hidden_field_tag(:car_VIN, res['car_VIN']) %>
                 <%= hidden_field_tag(:member_member_number, res['member_member_number']) %>
                 <%= hidden_field_tag(:date, res['date']) %>
+                <%= hidden_field_tag(:access_code, res['access_code']) %>
                 <!-- ask for dropoff odometer reading -->
                 <%= label_tag(:do_reading, "Odometer reading: ") %>
                 <%= text_field_tag(:do_reading) %>
+                <%= label_tag(:status_on_return, "Car status: ") %>
+                <%= select_tag(:status_on_return, options_for_select([['normal','normal'],['damaged','damaged'],['not running','not running']])) %>
                 <%= submit_tag("Return Car") %>
             <% end %>
         <% end %>

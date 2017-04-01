@@ -106,9 +106,7 @@ class CarController < ApplicationController
     end
     
     def unlock
-        
-        # NOTE: ADD THE PICKUP TIME, AND PICKUP STATUS (COLUMNS IN THE DB)
-        
+
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         access_code = params['access_code']
         unlocked = params['unlocked']
@@ -119,15 +117,19 @@ class CarController < ApplicationController
         do_reading = pu_reading # temporarily identical in 'not_yet_returned' status
         status_on_return = 'not_yet_returned'
         distance = 0
-
+        pu_time = DateTime.now
+        status_on_pickup = params['status_on_pickup']
+        
         unless unlocked == 'yes'
             # set reservation as unlocked
             querystring = "update reservation set unlocked='yes' where access_code='#{access_code}'"
             @client.query(querystring)
-            querystring2 = "insert into car_rental_history (car_VIN, date, member_member_number, pu_reading, do_reading, status_on_return, distance)"
+            querystring2 = "insert into car_rental_history (car_VIN, date, member_member_number, pu_reading, "
+            querystring2 += "do_reading, status_on_return, distance, pu_time, status_on_pickup)"
            
             # add to car rental history with status of 'not_yet_returned'
-            querystring2 += " values ('#{vin}', '#{date}', '#{member_member_number}', #{pu_reading}, #{do_reading}, '#{status_on_return}', #{distance})"
+            querystring2 += " values ('#{vin}', '#{date}', '#{member_member_number}', #{pu_reading}, #{do_reading},"
+            querystring2 += " '#{status_on_return}', #{distance}, '#{pu_time}', '#{status_on_pickup}')"
             @client.query(querystring2)
         end
         
@@ -136,11 +138,36 @@ class CarController < ApplicationController
     end
     
     def return_car
-        # NOTE: ADD THE DROPOFF TIME COLUMN IN DB
         
-        # update car's rental history with dropoff reading
-        # remove records from reservations table
-        # redirect to cars availability page
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+        # get the car info
+        vin = params['car_VIN']
+        date = params['date']
+        member_member_number = current_user['member_number']
+        do_reading = params['do_reading']
+        distance = 0
+        do_time = DateTime.now
+        status_on_return = params['status_on_return']
+        access_code = params['access_code']
+        
+        # calculate the distance. first get the pickup reading
+        querystring = "select pu_reading from car_rental_history where car_VIN='#{vin}' and date='#{date}' and member_member_number='#{member_member_number}'"
+        po_reading = @client.query(querystring).each[0]['pu_reading']
+        distance = do_reading.to_f-po_reading.to_f
+        
+        # update car's rental history with dropoff reading, time and status
+        querystring2 = "update car_rental_history set do_reading='#{do_reading}', do_time='#{do_time}', status_on_return='#{status_on_return}', distance='#{distance}'"
+        querystring2 += " where car_VIN='#{vin}' and date='#{date}' and member_member_number='#{member_member_number}'"
+        @client.query(querystring2)
+        
+        # remove record from reservations table
+        querystring3 = "delete from reservation where access_code='#{access_code}'"
+        @client.query(querystring3)
+        
+        # redirect to car show page
+        redirect_to "/cars/view/#{vin}"
+
     end
     
     def createComment
