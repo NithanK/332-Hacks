@@ -80,6 +80,8 @@ class CarController < ApplicationController
             commentHistory_hash['make'] = x['make']
             commentHistory_hash['model'] = x['model']
             commentHistory_hash['year'] = x['year']
+            commentHistory_hash["member_member_number"] = x['member_member_number']
+            commentHistory_hash["comment_reply"] = x['comment_reply']
             @commentHistory.push(commentHistory_hash)
         end 
     end 
@@ -164,34 +166,32 @@ class CarController < ApplicationController
         
         if @commentHistory[0].has_value?(params['vin']) && @commentHistory[0].has_value?(session[:member_number])
             client.query("update rental_comment set rating = #{params['rating']},comment='#{params["newComment"]}' where member_member_number = #{session[:member_number]};")
-        else
+        elseif @car_rental_history[0].has_value?(params['vin']) && @car_rental_history[0].has_value?(session[:member_number])
             client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES (#{params['vin']},#{session[:member_number]},#{params['rating']},'#{params["newComment"]}');")
         end
     end  
     
-    
-    
+   
+
     def createReply
-        vin = params['car_VIN']
-        client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        newRep = "SELECT * from rental_comment" #hardcoded b/c broken
-        getMem = "SELECT member_member_number FROM rental_comment WHERE car_VIN = 1030"
-        @reply = client.query(newRep)
-        @reply_array = []
-        @reply.each do |reply|
-            reply_hash = {}
-            reply_hash["comment_reply"] = reply["comment_reply"]
-            reply_hash['car_VIN'] = reply['car_VIN']
-            reply_hash['member_member_number'] = reply['member_member_number']
-            
-            @reply_array.push(reply_hash)
+       client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+       @reply = client.query("SELECT * FROM rental_comment")
+        @replyHistory = []
+        
+        @reply.each do |r|
+            replyHistory_hash = {}
+            replyHistory_hash['comment_reply'] = r["comment_reply"]
+             replyHistory_hash['member_member_number'] = r["member_member_number"]
+            @replyHistory.push(replyHistory_hash)
         end
-        puts @reply
-        #insertion = "INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment,comment_reply) VALUES ('1030','50000','','', '" + params['comment_reply'] + "')"
-        #insertion = "UPDATE rental_comment SET comment_reply ="'+ params['comment_reply']' + "WHERE car_VIN ="' +params['car_VIN']+ '" + 
-     #client.query(insertion)
+        
+        puts params['newRep']
+        puts params['member_member_number']
+        
+        
+    client.query("update rental_comment set comment_reply='#{params["newRep"]}' where member_member_number = #{params[:member_member_number]};")
     
-    
+   
 
 
     end
@@ -201,4 +201,5 @@ class CarController < ApplicationController
         
         
     
+
 end
