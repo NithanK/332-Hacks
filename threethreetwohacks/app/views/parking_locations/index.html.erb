@@ -14,11 +14,10 @@
     <TR>
 
     <% if isAdmin? %>
-    <TD style="width:50vh;><%= link_to loc['address'], "/parking_locations/#{loc['address']}" %></TD>
-        <!--<TD><%= loc['address'] %></TD>-->
+        <TD style="width:50vh;"><%= link_to loc['address'], "/parking_locations/#{loc['address']}" %></TD>
         <TD><%= loc['num_spaces'] %></TD>
     <% else %>
-        <TD><%= loc['address'] %>
+        <TD><%= loc['address'] %></TD>
          <TD><%= loc['num_spaces'] %></TD>
         
     <% end %>
