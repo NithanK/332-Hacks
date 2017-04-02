@@ -40,6 +40,54 @@ class MemberController < ApplicationController
             @pl_id_to_address[lot['pl_id']] = lot['address']
         end
     end
+    
+    def adminReservations 
+         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+         # get all the cars, unless they are reserved on that day
+        # find the vins to remove...
+        @date = Date.today.to_formatted_s(:db) # default to today if date not supplied
+         vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
+        vins_to_remove_array = []
+        vins_to_remove.each do |vin|
+            puts vin
+            vins_to_remove_array.push(vin['car_vin'])
+        end
+        puts '@@@@@'
+        puts vins_to_remove_array
+        
+        puts ('HELELEOEOEOEEOEOEO')
+        puts params['location']
+        
+        # now get all the cars
+        @car_array_remove = []
+        @car = @client.query("SELECT vin, make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        
+        puts @car.each
+        @car.each do |car|
+            puts '%%%%%%%%%%%'
+            puts car['address']
+            
+            if vins_to_remove_array.include? car['vin']
+                puts "!!!!!!!!!!!!!"
+                car_hash_remove = {}
+                car_hash_remove['make'] = car['make']
+                car_hash_remove['model'] = car['model']
+                car_hash_remove['year'] = car['year']
+                car_hash_remove['daily_fee'] = car['daily_fee']
+                car_hash_remove['address'] = car['address']
+                car_hash_remove['vin'] = car['vin']
+                @car_array_remove.push(car_hash_remove)
+            end
+        end
+        
+        puts '**************************'
+        puts @car_array_remove
+            
+        @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
+        
+    end 
+    
             
         
 end
