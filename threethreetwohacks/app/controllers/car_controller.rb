@@ -73,7 +73,9 @@ class CarController < ApplicationController
         @vin = params['vin']
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         @comment = client.query("select * from rental_comment inner join car ON rental_comment.car_VIN = car.vin inner join member ON rental_comment.member_member_number = member.member_number where VIN ="+@vin)
-        
+        @car_name = client.query("select * from car where vin='#{@vin}'")
+        @car_name = @car_name.first['make'] + " " + @car_name.first['model']
+       
         @commentHistory = []
         @comment.each do |x|
             commentHistory_hash = {}
