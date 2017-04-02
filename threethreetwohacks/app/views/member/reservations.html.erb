@@ -31,6 +31,9 @@
         <!-- if user has already unlocked, then they may return the car -->
         <% if res['unlocked'] == 'yes' %>
             Car has been unlocked. 
+            <% @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS") %>
+            <% pu = @client.query("select * from car_rental_history where car_vin='#{res['car_VIN']}' and date='#{res['date']}' and member_member_number='#{res['member_member_number']}'") %>
+            <br>Odometer on pickup: <%= pu.each[0]['pu_reading'] %>
             <%= form_tag('/cars/rent/return_car', method: 'post') do %>
                 <%= hidden_field_tag(:res_number, res['res_number']) %>
                 <%= hidden_field_tag(:car_VIN, res['car_VIN']) %>

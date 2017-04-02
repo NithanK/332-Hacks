@@ -7,7 +7,7 @@
 </h1><br><br>
 <% @car_array.each do |car| %>
     <h3 style="width:40%; margin: 0 auto; padding-right:40px;"">
-    <%= link_to "#{car['make']} #{car['model']} (#{car['year']})", "cars/view/#{car['vin']}"%>
+    <%= link_to "#{car['make']} #{car['model']} (#{car['year']})", "#{ENV['ROOT_PATH']}/cars/view/#{car['vin']}"%>
     <div style="float: right;">
         <%= form_tag('/cars/rent/select', method: 'post') do %>
             <%= label_tag(:length_days, "Days:") %>
