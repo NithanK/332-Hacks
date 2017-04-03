@@ -1,3 +1,6 @@
+<% if !isAdmin? %>
+Only available to admins!
+<% else %>
 <h1> Our members</h1>
 
 <table cellspacing ="15">
@@ -20,7 +23,9 @@
     <td><%= member['license_number']%></td>
     <td><%= member['annual_fee']%> </td>
     <td> <%= button_to 'See rental History', '/member/'+member['member_number']+'/rental_history', :method => :get %></td>
+    <td> <%= button_to 'Monthly Invoice', '/member/'+member['member_number']+'/invoice', :method => :get %></td>
     
 </tr>
 <% end %>
 </table>
+<% end %>

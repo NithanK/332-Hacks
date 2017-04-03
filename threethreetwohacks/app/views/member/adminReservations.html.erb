@@ -1,3 +1,6 @@
+<% if !isAdmin? %>
+Only available to admins!
+<% else %>
 <h1>Cars reserved on <%= @resDate %> </h1>
 
 <% if !(@car_array_remove.nil?) %>
@@ -10,4 +13,5 @@
     <% end %>
 <% else %>
     <h1>No Reservations</h1>
+<% end %>
 <% end %>

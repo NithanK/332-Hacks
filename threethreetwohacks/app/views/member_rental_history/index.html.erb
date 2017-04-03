@@ -1,26 +1,21 @@
 <h1>Member Rental History</h1>
 <% if @memberRentHist_array.length == 0 %>
-        <h2> False ID </h2> 
-
-    
-    <% else %> 
+    <h2> No rental history for this member! </h2> 
+<% else %> 
     <table>
     <tr>
-        <th> Make</th>
+        <th>Make</th>
         <th>Model</th>
         <th>date</th>
-        
-        
     </tr>
-        <% @memberRentHist_array.each do |memberRentHist| %>
-        
+    <% @memberRentHist_array.each do |memberRentHist| %>
         <tr>
             <td> <%= memberRentHist['make'] %></td>
             <td> <%= memberRentHist['model'] %></td>
             <td> <%= memberRentHist['date'] %></td>
         
         </tr>
-    </table>
     <% end %>
-    <%end%>
+    </table>
+<%end%>
 
