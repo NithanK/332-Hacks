@@ -6,7 +6,7 @@
         <%= link_to '1 day >>', '/cars/rent/' + (Date.parse(@date) + 1).to_formatted_s(:db) %>
 </h1><br><br>
 <% @car_array.each do |car| %>
-    <h3 style="width:40%; margin: 0 auto; padding-right:40px;"">
+    <h3 style="width:40%; margin: 0 auto; padding-right:40px; background-color:#d3d3d3; padding:10px; border: 1px solid black; border-radius:10px;">
     <%= link_to "#{car['make']} #{car['model']} (#{car['year']})", "#{ENV['ROOT_PATH']}/cars/view/#{car['vin']}"%>
     <div style="float: right;">
         <%= form_tag('/cars/rent/select', method: 'post') do %>
