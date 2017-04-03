@@ -1,4 +1,7 @@
-<h1>Comments about <%= @car_name %></h1>
+<h1>Comments about <%= @car_name %>
+<% if isAdmin? %>
+    <%= button_to 'Rental History', "/cars/car_rental_history/#{@vin}", :method => :get %>
+<% end %></h1>
   <% if !isAdmin? and @hist_list.include? @vin %>  
         <h2 style="text-align: left; margin: 0 auto;">Add Comment</h2>
         <%= form_tag("/new_comment?vin=#{@vin}", method: 'post') do %>
