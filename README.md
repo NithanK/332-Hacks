@@ -9,5 +9,5 @@ ALTER TABLE car_rental_history ADD (pu_time DATETIME, do_time DATETIME, status_o
 ```
 run in `rails console`:
 ```
-ENV['ROOT_PATH'] = 'threethreetwohacks-noamhacker.c9users.io' # set the timezone
+ENV['ROOT_PATH'] = 'threethreetwohacks-noamhacker.c9users.io'
 ```
