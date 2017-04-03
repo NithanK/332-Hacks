@@ -70,10 +70,20 @@ class CarController < ApplicationController
     end
     
     def show
+        
         @vin = params['vin']
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         @comment = client.query("select * from rental_comment inner join car ON rental_comment.car_VIN = car.vin inner join member ON rental_comment.member_member_number = member.member_number where VIN ="+@vin)
-        
+        @car_name = client.query("select * from car where vin='#{@vin}'")
+        @car_name = @car_name.first['make'] + " " + @car_name.first['model']
+       
+        # get a list of cars user has rented, so we know if they are allowed to comment
+        hist = client.query("select * from car_rental_history where member_member_number='#{current_user['member_number']}'")
+        @hist_list = []
+        hist.each do |car|
+            @hist_list.push(car['car_VIN'])
+        end
+       
         @commentHistory = []
         @comment.each do |x|
             commentHistory_hash = {}
@@ -189,27 +199,24 @@ class CarController < ApplicationController
         
         @comment = client.query("select * from rental_comment")
         @commentHistory = []
-        
-        @comment.each do |x|
-            commentHistory_hash = {}
-            commentHistory_hash['car_VIN'] = x['car_VIN']
-            commentHistory_hash['member_member_number'] = x['member_member_number']
-            @commentHistory.push(commentHistory_hash)
+        @comment.each do |c|
+            @commentHistory.push("#{c['car_VIN']}-#{c['member_member_number']}")
         end
         
+       
+        
+        if @commentHistory.include? ("#{params['vin']}-#{current_user['member_number']}")
+            client.query("update rental_comment set rating = #{params['rating']},comment='#{params["newComment"]}' where member_member_number = #{current_user['member_number']} and car_VIN=#{params['vin']};")
+        else
+            client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES (#{params['vin']},#{session[:member_number]},#{params['rating']},'#{params["newComment"]}');")
+        end
+        puts @commentHistory
+
         puts params['newComment']
         puts params['vin']
         puts params['rating']
         
-       
-        
-        if @commentHistory[0].has_value?(params['vin']) && @commentHistory[0].has_value?(session[:member_number])
-            client.query("update rental_comment set rating = #{params['rating']},comment='#{params["newComment"]}' where member_member_number = #{session[:member_number]};")
-
-        elseif @car_rental_history[0].has_value?(params['vin']) && @car_rental_history[0].has_value?(session[:member_number])
-
-            client.query("INSERT INTO rental_comment(car_VIN,member_member_number,rating,comment) VALUES (#{params['vin']},#{session[:member_number]},#{params['rating']},'#{params["newComment"]}');")
-        end
+        redirect_to "/cars/view/"+params['vin']
     end  
     
 
@@ -232,9 +239,9 @@ class CarController < ApplicationController
         puts params['member_member_number']
         
         
-    client.query("update rental_comment set comment_reply='#{params["newRep"]}' where member_member_number = #{params[:member_member_number]};")
-    
-   
+        client.query("update rental_comment set comment_reply='#{params["newRep"]}' where member_member_number = #{params[:member_member_number]} and car_VIN=#{params['vin']};")
+        
+        redirect_to "/cars/view/"+params['vin']
 
 
     end

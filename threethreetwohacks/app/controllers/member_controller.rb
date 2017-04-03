@@ -40,6 +40,62 @@ class MemberController < ApplicationController
             @pl_id_to_address[lot['pl_id']] = lot['address']
         end
     end
+    
+    def adminReservationDatepicker 
+         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+    end 
+    
+    def adminReservations
+          @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+         # get all the cars, unless they are reserved on that day
+        # find the vins to remove...
+        @date = Date.today.to_formatted_s(:db) # default to today if date not supplied
+         vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
+        vins_to_remove_array = []
+        vins_to_remove.each do |vin|
+            puts vin
+            vins_to_remove_array.push(vin['car_vin'])
+        end
+        puts '@@@@@'
+        puts vins_to_remove_array
+        
+        puts ('HELELEOEOEOEEOEOEO')
+        @resDate = params['day']
+        
+        # now get all the cars
+        @car_array_remove = []
+        @car = @client.query("SELECT * from reservation inner join car on reservation.car_VIN = car.VIN;")
+        
+        puts @car.each
+        @car.each do |car|
+            puts '%%%%%%%%%%%'
+            puts car['date']
+            puts car['car_VIN']
+            puts params['day'].to_s==car['date'].to_s
+            puts params['day']
+            puts car['date']
+            puts 'TTTTTTTTTTTTTTTT'
+            puts (@car_array_remove.any?{|h| h[:a] == car['car_VIN']})
             
+            puts 'TTTTTTTTTTTTTTTT'
+            if (vins_to_remove_array.include? car['car_VIN'] and params['day'].to_s == car['date'].to_s )
+                puts "!!!!!!!!!!!!!"
+                puts car['date']
+                car_hash_remove = {}
+                car_hash_remove['make'] = car['make']
+                car_hash_remove['model'] = car['model']
+                car_hash_remove['year'] = car['year']
+                car_hash_remove['car_VIN'] = car['car_VIN']
+                @car_array_remove.push(car_hash_remove)
+            end
+        end
+        
+        puts '**************************'
+        puts @car_array_remove
+            
+        @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
+        
+    end
         
 end

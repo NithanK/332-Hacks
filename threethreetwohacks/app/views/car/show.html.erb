@@ -1,4 +1,16 @@
-<h1>Comments about <%= @commentHistory[0]['make']%> <%= @commentHistory[0]['model']%></h1>
+<h1>Comments about <%= @car_name %></h1>
+  <% if !isAdmin? and @hist_list.include? @vin %>  
+        <h2 style="text-align: left; margin: 0 auto;">Add Comment</h2>
+        <%= form_tag("/new_comment?vin=#{@vin}", method: 'post') do %>
+             <%= label_tag(:newComment, "Comment:") %>
+             <%= text_field_tag(:newComment) %>
+             <%= label_tag(:rating, "Rate from 1-5:") %>
+             <%= text_field_tag(:rating) %>
+             <%= hidden_field_tag :vin, @vin %>
+             <%= submit_tag("Submit") %>
+           
+        <%end%> 
+    <% end %>
 <table cellspacing ="15">
     <tr>
         <th>Member</th>
@@ -8,77 +20,47 @@
     </tr>
  
     <% if isAdmin? %>
-    <% @commentHistory.each do |comment| %>
-    <tr>
-        <td> <%=comment['name']%> </td>
-        <td><%=comment['comment']%></td>
-       <td> <%=comment['rating']%></td>
-       <td><%=comment['comment_reply']%></td>
-       
-       <%comment['member_member_number']%>
-       <td>
-        <%= form_tag('/new_reply', method: 'post') do %>
-         <%= label_tag(:newRep, "Reply:") %>
-         <%= text_field_tag(:newRep) %>
-         <%= hidden_field_tag :vin, @vin %>
-         <%=hidden_field_tag :member_member_number, comment['member_member_number'] %>
-         
-         <%= submit_tag("Submit") %>
-   
-       <%end%>
-   </td>
-    </tr>
-   <% end %>
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+                <% @commentHistory.each do |comment| %>
+                    <tr>
+                        <td> <%=comment['name']%> </td>
+                        <td style="background-color: white; border: 1px solid black; border-radius:10px;padding:3px;"><%=comment['comment']%></td>
+                        <td> <%=comment['rating']%></td>
+                        <td><%=comment['comment_reply']%></td>
+                       
+                        <%comment['member_member_number']%>
+                        <td>
+                        <%= form_tag("/new_reply/?vin=#{@vin}", method: 'post') do %>
+                         <%= label_tag(:newRep, "Reply:") %>
+                         <%= text_field_tag(:newRep) %>
+                         <%= hidden_field_tag :vin, @vin %>
+                         <%=hidden_field_tag :member_member_number, comment['member_member_number'] %>
+                         
+                         <%= submit_tag("Submit") %>
+                   
+                       <%end%>
+                       </td>
+                    </tr>
+               <% end %>
     <% else %>
+
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   <% @commentHistory.each do |comment| %>
-   
-   <tr>
-   
-      
-        <td><%=comment['name']%></td>
-       <td> <%=comment['comment']%> </td>
-        <td><%=comment['rating']%>
-        <td><%=comment['comment_reply']%></td>
-        
-    </tr>
-   
-    
-  <%end%>
+           <% @commentHistory.each do |comment| %>
+           
+               <tr>
+               
+                  
+                    <td><%=comment['name']%></td>
+                   <td style="background-color: white; border: 1px solid black; border-radius:10px; padding:3px;"> <%=comment['comment']%> </td>
+                    <td><%=comment['rating']%>
+                    <td><%=comment['comment_reply']%></td>
+                    
+                </tr>
+               
+            
+          <%end%>
+    <%end%>
   
-   <h2 style="text-align: left; margin: 0 auto;">Add Comment</h2>
-<%= form_tag('/new_comment', method: 'post') do %>
-     <%= label_tag(:newComment, "Comment:") %>
-     <%= text_field_tag(:newComment) %>
-     <%= label_tag(:rating, "Rate from 1-5:") %>
-     <%= text_field_tag(:rating) %>
-     <%= hidden_field_tag :vin, @vin %>
-     <%= submit_tag("Submit") %>
-   
-   <%end%> 
-<%end %>
-  
+
    
     </table>
    
