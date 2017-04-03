@@ -2,3 +2,9 @@
 
 <%= button_to 'See cars', '/cars/view', :method => :get %>
 <%= button_to 'See members', '/admin/members', :method => :get %>
+
+<% @makeArr.each do |most|%>
+
+<h2>The most rented car is: <%=most['make']%> <%=most['model'] %> </h2>
+
+<%end%>
