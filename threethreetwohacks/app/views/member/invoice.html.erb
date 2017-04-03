@@ -1,0 +1,15 @@
+<% if !isAdmin? %>
+Only available to admins!
+<% else %>
+    <h1><%= Date::MONTHNAMES[Date.today.month] %> Invoice for <%= @current_member['name'] %> (<%= @current_member['email'] %>)</h1>
+    <table style="width:80%; border:2px solid black; padding:10px;"><tr>
+        <td><strong>Car</strong></td><td><strong>Pickup</strong></td><td><strong>Dropoff</strong></td><td><strong>Daily Fee</strong></td></tr><tr>
+        <% @invoice_lines.each do |line| %>
+            <td><%= line['car'] %></td>
+            <td><%= line['pickup'] %></td>
+            <td><%= line['dropoff'] %></td>
+            <td>$<%= line['daily_fee'] %></td></tr>
+        <% end %>
+    </table>
+    <h3>Total: $<%= @invoice_total %></h3>
+<% end %>

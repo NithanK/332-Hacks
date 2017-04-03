@@ -98,4 +98,30 @@ class MemberController < ApplicationController
         
     end
         
+        
+    def invoice
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        member_number = params['id']
+        @current_member = @client.query("select name,email from member where member_number=#{member_number}").each[0]
+        start_of_this_month = Date.today.beginning_of_month
+        querystring = "select * from car_rental_history  inner join car on car.VIN=car_rental_history.car_VIN"
+        querystring += " inner join member on member.member_number=car_rental_history.member_member_number"
+        querystring += " where do_time >= '#{start_of_this_month}' and member_member_number = '#{member_number}' order by do_time asc"
+        @usage = @client.query(querystring)
+        @invoice_lines = [];
+        @invoice_total = 0;
+        @usage.each do |line|
+            unless (line['pu_time']==nil or line['do_time']==nil)
+                line_hash = {}
+                days_used = Date.parse(line['do_time'].to_s)-Date.parse(line['pu_time'].to_s)
+                line_hash['days_used'] = days_used.to_i+1
+                line_hash['daily_fee'] = line['daily_fee']
+                line_hash['pickup'] = Date.parse(line['pu_time'].to_s)
+                line_hash['dropoff'] = Date.parse(line['do_time'].to_s)
+                line_hash['car'] = "#{line['make']} #{line['model']} (#{line['year']})"
+                @invoice_lines.push(line_hash)
+                @invoice_total += line_hash['daily_fee'] * line_hash['days_used']
+            end
+        end
+    end
 end
