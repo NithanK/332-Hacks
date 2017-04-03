@@ -21,12 +21,18 @@ class CarController < ApplicationController
        daily_fee = params['daily_fee']
        license_plate = params['license_plate']
        colour = params['colour']
+       do_time = DateTime.now
        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
        querystring = 'insert into car (VIN, parking_locations_pl_id, make, model, year, daily_fee, license_plate, colour) values '
        querystring += '("' + vin + '", "' + parking_locations_pl_id + '", "' + make + '", "' + model + '", "' + year + '", "'
        querystring += daily_fee + '", "' + license_plate + '", "' + colour + '")'
        # do the insert query
        @client.query(querystring)
+       
+       #insert into maintanence 
+       # "INSERT INTO maintenance_history(cars_VIN, date, odometer_reading, type, description) values (#{vin},'#{do_time}',#{do_reading},'Body Work','dents')"
+       newCarMaintenance ="INSERT INTO maintenance_history(cars_VIN, date, odometer_reading, type, description) values (#{vin},'#{do_time}','0','N/A','Working Fine')"
+       @client.query(newCarMaintenance)
        redirect_to '/cars/view'
     end
     
