@@ -23,6 +23,7 @@ Only available to admins!
     <td><%= member['license_number']%></td>
     <td><%= member['annual_fee']%> </td>
     <td> <%= button_to 'See rental History', '/member/'+member['member_number']+'/rental_history', :method => :get %></td>
+    <td> <%= button_to 'Monthly Invoice', '/member/'+member['member_number']+'/invoice', :method => :get %></td>
     
 </tr>
 <% end %>

@@ -24,16 +24,18 @@ Rails.application.routes.draw do
 
   # admin features
   # NOTE: restrict them to isAdmin
-  get   '/admin/members', to:               'member#index'
-  get   '/member/:id/rental_history', to:   'member_rental_history#index'
   get   '/admin', to:                       'admin#index'
+  get   '/admin/members', to:               'member#index'
+  get   '/admin/reservations/',       to:   'member#adminReservationDatepicker'
+  get   '/admin/reservations/:day',     to: 'member#adminReservations'
+  get   '/member/:id/rental_history', to:   'member_rental_history#index'
+  get   '/member/:id/invoice',    to:       'member#invoice'
   get   '/cars/view', to:                   'car#index'
   post  '/cars/create', to:                 'car#create'
   get   '/cars/car_rental_history/:vin', to:'car_rental_history#index' 
-  post '/new_reply', to:                    "car#createReply"
+  post  '/new_reply', to:                   'car#createReply'
   post  '/parking_locations/create', to:    'parking_locations#create'
-  get  '/admin/reservations/',       to: 'member#adminReservationDatepicker'
-  get  '/admin/reservations/:day',       to: 'member#adminReservations'
+
   
 
   # sesssions features
