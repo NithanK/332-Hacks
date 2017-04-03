@@ -41,9 +41,13 @@ class MemberController < ApplicationController
         end
     end
     
-    def adminReservations 
+    def adminReservationDatepicker 
          @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         
+    end 
+    
+    def adminReservations
+          @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
          # get all the cars, unless they are reserved on that day
         # find the vins to remove...
         @date = Date.today.to_formatted_s(:db) # default to today if date not supplied
@@ -57,26 +61,32 @@ class MemberController < ApplicationController
         puts vins_to_remove_array
         
         puts ('HELELEOEOEOEEOEOEO')
-        puts params['location']
+        @resDate = params['day']
         
         # now get all the cars
         @car_array_remove = []
-        @car = @client.query("SELECT vin, make, model, year, daily_fee, address FROM car inner join parking_location where car.parking_locations_pl_id=parking_location.pl_id")
+        @car = @client.query("SELECT * from reservation inner join car on reservation.car_VIN = car.VIN;")
         
         puts @car.each
         @car.each do |car|
             puts '%%%%%%%%%%%'
-            puts car['address']
+            puts car['date']
+            puts car['car_VIN']
+            puts params['day'].to_s==car['date'].to_s
+            puts params['day']
+            puts car['date']
+            puts 'TTTTTTTTTTTTTTTT'
+            puts (@car_array_remove.any?{|h| h[:a] == car['car_VIN']})
             
-            if vins_to_remove_array.include? car['vin']
+            puts 'TTTTTTTTTTTTTTTT'
+            if (vins_to_remove_array.include? car['car_VIN'] and params['day'].to_s == car['date'].to_s )
                 puts "!!!!!!!!!!!!!"
+                puts car['date']
                 car_hash_remove = {}
                 car_hash_remove['make'] = car['make']
                 car_hash_remove['model'] = car['model']
                 car_hash_remove['year'] = car['year']
-                car_hash_remove['daily_fee'] = car['daily_fee']
-                car_hash_remove['address'] = car['address']
-                car_hash_remove['vin'] = car['vin']
+                car_hash_remove['car_VIN'] = car['car_VIN']
                 @car_array_remove.push(car_hash_remove)
             end
         end
@@ -86,8 +96,6 @@ class MemberController < ApplicationController
             
         @length_options = [ [1,1],[2,2],[3,3],[4,4],[5,5],[6,6],[7,7] ]
         
-    end 
-    
-            
+    end
         
 end

@@ -32,7 +32,8 @@ Rails.application.routes.draw do
   get   '/cars/car_rental_history/:vin', to:'car_rental_history#index' 
   post '/new_reply', to:                    "car#createReply"
   post  '/parking_locations/create', to:    'parking_locations#create'
-  get  '/admin/reservations',           to: 'member#adminReservations'
+  get  '/admin/reservations/',       to: 'member#adminReservationDatepicker'
+  get  '/admin/reservations/:day',       to: 'member#adminReservations'
   
 
   # sesssions features

@@ -1,9 +1,13 @@
-<h1>Reservations</h1>
+<h1>Cars reserved on <%= @resDate %> </h1>
 
-
-<% @car_array_remove.each do |unbanned| %>
-    <%= unbanned['make'] %>
+<% if !(@car_array_remove.nil?) %>
+    
+    <% @car_array_remove.each do |banned| %>
+        <%= banned['make'] %>
+        <%= banned['model'] %>
+        <%= banned['year'] %>
+        <br>
+    <% end %>
+<% else %>
+    <h1>No Reservations</h1>
 <% end %>
-
-
-
