@@ -27,7 +27,21 @@
 body { 
     font-family: 'Roboto', sans-serif;
     background-image: url(<%= asset_path 'bg.jpg' %>);
+   
+
 }
 .site-body {
     padding-left: 50px;
+     height:100px;
+       padding-bottom:100px;
+}
+.racecar {
+    cursor: url(http://findicons.com/files/icons/1012/racing_cars/128/ferrari.png), pointer;
+  height: 150px;
+   position:absolute;
+   bottom:0;
+   width:100%;
+   background-image: url(<%= asset_path 'road.jpg' %>);
+   background-size: 150px auto;
+   z-index:-99;
 }

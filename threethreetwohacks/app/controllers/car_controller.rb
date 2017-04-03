@@ -97,6 +97,7 @@ class CarController < ApplicationController
             commentHistory_hash["comment_reply"] = x['comment_reply']
             @commentHistory.push(commentHistory_hash)
         end 
+        puts @commentHistory.length
     end 
     
     def reserve
@@ -165,6 +166,14 @@ class CarController < ApplicationController
         do_time = DateTime.now
         status_on_return = params['status_on_return']
         access_code = params['access_code']
+        
+        if status_on_return == 'damaged' 
+            maintenance_historyQuery = "INSERT INTO maintenance_history(cars_VIN, date, odometer_reading, type, description) values (#{vin},'#{do_time}',#{do_reading},'Body Work','dents')"
+            @client.query(maintenance_historyQuery)
+            puts date
+        end
+            
+        
         
         # calculate the distance. first get the pickup reading
         querystring = "select pu_reading from car_rental_history where car_VIN='#{vin}' and date='#{date}' and member_member_number='#{member_member_number}'"
