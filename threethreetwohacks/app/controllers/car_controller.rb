@@ -172,7 +172,11 @@ class CarController < ApplicationController
             @client.query(maintenance_historyQuery)
             puts date
         end
-            
+        
+        if status_on_return == 'not running'
+            notrunningquery =  "INSERT INTO maintenance_history(cars_VIN, date, odometer_reading, type, description) values (#{vin},'#{do_time}',#{do_reading},'diagnostics','Find out whats wrong')"
+            @client.query(notrunningquery)
+        end
         
         
         # calculate the distance. first get the pickup reading
