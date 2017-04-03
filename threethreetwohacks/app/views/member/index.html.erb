@@ -1,3 +1,6 @@
+<% if !isAdmin? %>
+Only available to admins!
+<% else %>
 <h1> Our members</h1>
 
 <table cellspacing ="15">
@@ -24,3 +27,4 @@
 </tr>
 <% end %>
 </table>
+<% end %>
