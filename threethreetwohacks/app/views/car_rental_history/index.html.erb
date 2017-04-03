@@ -1,19 +1,17 @@
 <% if !isAdmin? %>
 Only available to admins!
 <% else %>
-<h1>Car Rental History</h1>
-<table>
+<h1>Rental history for <%= @car %></h1>
+<table style="width:80%;">
     <tr>
-        <th> Make</th>
-        <th>Model</th>
-        <th>Status</th>
-        <th>Distance</th>
+        <td><strong>Date</strong></td>
+        <td><strong>Status on return</strong></td>
+        <td><strong>Distance driven</strong></td>
     </tr>
     
     <% @carHistory_array.each do |carHistory| %>
     <tr>
-        <td> <%= carHistory['make'] %></td>
-        <td> <%= carHistory['model'] %></td>
+        <td> <%= carHistory['date'] %></td>
         <td> <%= carHistory['status_on_return'] %></td>
         <td> <%= carHistory['distance'] %></td>
         
