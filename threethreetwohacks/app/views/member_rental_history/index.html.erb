@@ -6,14 +6,15 @@
     <tr>
         <td><strong>Make</strong></td>
         <td><strong>Model</strong></td>
-        <td><strong>date</strong></td>
+        <td><strong>Date</strong></td>
+        <td><strong>Number of days</strong></td>
     </tr>
     <% @memberRentHist_array.each do |memberRentHist| %>
         <tr>
             <td> <%= memberRentHist['make'] %></td>
             <td> <%= memberRentHist['model'] %></td>
             <td> <%= memberRentHist['date'] %></td>
-        
+            <td> <%= memberRentHist['length_days'] %></td>
         </tr>
     <% end %>
     </table>

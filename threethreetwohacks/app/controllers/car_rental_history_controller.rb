@@ -14,7 +14,7 @@ class CarRentalHistoryController < ApplicationController
             carHistory_hash['date'] = carHistory['date']
             carHistory_hash['model'] = carHistory['model']
             carHistory_hash['status_on_return'] = carHistory['status_on_return']
-             carHistory_hash['distance'] = carHistory['distance']
+            carHistory_hash['distance'] = carHistory['distance']
             @carHistory_array.push(carHistory_hash)
         end
         puts @carHistory_array

@@ -12,11 +12,11 @@ class MemberRentalHistoryController < ApplicationController
             memberRentHist_hash['date'] = memberRentHist['date']
             memberRentHist_hash['make'] = memberRentHist['make']
             memberRentHist_hash['model'] = memberRentHist['model']
+            unless (memberRentHist['pu_time']==nil or memberRentHist['do_time']==nil)
+                length_days = (Date.parse(memberRentHist['do_time'].to_s)-Date.parse(memberRentHist['pu_time'].to_s)).to_i+1
+                memberRentHist_hash['length_days'] = length_days;
+            end
             @memberRentHist_array.push(memberRentHist_hash)
-            
-            
-            
-        
      end   
     end
 end
