@@ -4,8 +4,13 @@
 <%= button_to 'See members', '/admin/members', :method => :get %>
 
 <% @makeArr.each do |most|%>
-    <h2>The most rented car is: <%=most['make']%> <%=most['model'] %> </h2>
+
+
+<h2>The most rented car is: <%=most['make']%> <%=most['model'] %> </h2>
+
+
 <%end%>
+
 <% @makeArr2.each do |least|%>
     <h2>The least rented car is: <%=least['make']%> <%=least['model'] %> </h2>
 <%end%>
