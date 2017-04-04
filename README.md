@@ -12,3 +12,6 @@ run in `rails console`:
 ENV['ROOT_PATH'] = 'threethreetwohacks-noamhacker.c9users.io'
 ```
 Change the `ROOT_PATH` environment variable in application controller
+
+
+![screenshot](https://github.com/NithanK/332-Hacks/blob/master/Screen%20Shot%202017-04-04%20at%202.32.09%20PM.png)
