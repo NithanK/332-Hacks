@@ -42,8 +42,7 @@ class MemberController < ApplicationController
     end
     
     def adminReservationDatepicker 
-         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
-        
+    
     end 
     
     def adminReservations
@@ -51,7 +50,7 @@ class MemberController < ApplicationController
          # get all the cars, unless they are reserved on that day
         # find the vins to remove...
         @date = Date.today.to_formatted_s(:db) # default to today if date not supplied
-         vins_to_remove = @client.query('select car_vin from reservation where date="'+@date+'"')
+         vins_to_remove = @client.query('select car_vin from reservation')
         vins_to_remove_array = []
         vins_to_remove.each do |vin|
             puts vin
@@ -89,6 +88,8 @@ class MemberController < ApplicationController
                 car_hash_remove['car_VIN'] = car['car_VIN']
                 @car_array_remove.push(car_hash_remove)
             end
+            
+            
         end
         
         puts '**************************'
