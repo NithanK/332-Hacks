@@ -1,6 +1,23 @@
 class AdminController < ApplicationController
     def index
         @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        
+        
+        # SELECT cars_VIN,  MAX(date) FROM maintenance_history group by cars_VIN DESC;
+         
+        q = "SELECT car_VIN, SUM(distance)  from car_rental_history GROUP BY car_VIN having  SUM(distance) > 5000"
+         
+        @getMostRecentMan = @client.query(q)
+         
+         @getMostRecentMan_arr = []
+         @getMostRecentMan.each do |z| 
+             @getMostRecentMan_hash = {}
+             
+             @getMostRecentMan_hash['car_VIN'] = z['car_VIN']
+             @getMostRecentMan_arr.push(@getMostRecentMan_hash)
+         end
+        
+        
         @mostRented = @client.query("SELECT car_VIN from car_rental_history GROUP BY car_VIN ORDER BY COUNT(*) DESC LIMIT 1")
 
         @mr_arr = []
@@ -39,23 +56,7 @@ class AdminController < ApplicationController
              
 
          end 
-          
-             
-    
-         
-    end
-    
-    
-        
-        
-        
-        
-    
-    
-    
-    
-    
-    
+
 
         @leastRented = @client.query("SELECT car_VIN from car_rental_history GROUP BY car_VIN ORDER BY COUNT(*) ASC LIMIT 1")
        

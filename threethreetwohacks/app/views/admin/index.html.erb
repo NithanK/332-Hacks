@@ -10,7 +10,15 @@
 
 
 <%end%>
+
+<% @makeArr2.each do |least|%>
+    <h2>The least rented car is: <%=least['make']%> <%=least['model'] %> </h2>
+<%end%>
+
 <h2>Cars that need oil service </h2>
+<% if @getMostRecentMan_arr.nil? %>
+    None!
+<% end %>
 <% @getMostRecentMan_arr.each do |help| %>
 
  <%=help['car_VIN'] %> 
@@ -18,10 +26,3 @@
  <br>
 
 <% end %>
-
-    <h2>The most rented car is: <%=most['make']%> <%=most['model'] %> </h2>
-<%end%>
-<% @makeArr2.each do |least|%>
-    <h2>The least rented car is: <%=least['make']%> <%=least['model'] %> </h2>
-<%end%>
-
