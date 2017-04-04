@@ -20,7 +20,7 @@ class AdminController < ApplicationController
                 end
             end
             if distance_sum >= 5000
-                @cars_needing_maintenance.push("#{car['make']} #{car['model']}")
+                @cars_needing_maintenance.push({"name": "#{car['make']} #{car['model']}", "vin":car['VIN']})
             end
         end
         

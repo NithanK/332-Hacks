@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post  '/cars/rent/select', to:            'car#reserve'
   post  '/cars/rent/unlock', to:            'car#unlock'
   post  '/cars/rent/return_car', to:        'car#return_car'
+  get  '/cars/repair_car/:vin', to:         'car#repair_car'
   post  '/new_comment', to:                 'car#createComment'
   get   '/member/profile', to:              'member#profile'
   get   '/member/reservations', to:         'member#reservations'

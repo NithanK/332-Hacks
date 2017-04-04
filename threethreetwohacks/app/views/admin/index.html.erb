@@ -20,7 +20,9 @@
     None!
 <% else %>
     <% @cars_needing_maintenance.each do |car|%>
-        <%= car %><br>
+        <%= car[:name] %>&nbsp;
+        <%= button_to 'Repair', "/cars/repair_car/#{car[:vin]}", :method => :get %>
+        <br>
     <% end %>
 
 <% end %>
