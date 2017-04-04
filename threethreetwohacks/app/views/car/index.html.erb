@@ -6,10 +6,9 @@
     <br><%= car['address'] %></h3>
     <p></p>
 <% end %>
-<% if isAdmin? %>
-    <hr>
-    <h1 style="text-align: center; margin: 0 auto;">Add car</h1>
-    <div style="background-color:#d3d3d3; padding:10px; border: 1px solid black; border-radius:10px;">
+<% if isAdmin? %><br>
+    <h1 style="text-align: center; margin: 0 auto;">Add car</h1><br>
+    <div style="background-color:#d3d3d3; padding:10px; border: 1px solid black; border-radius:10px; width: 30%; display:block; margin: 0 auto;">
     <%= form_tag('/cars/create', method: 'post') do %>
         <%= hidden_field_tag(:vin, rand(10 ** 10)) %>
         <%= label_tag(:parking_locations_pl_id, "Parking location:") %>

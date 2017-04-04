@@ -1,15 +1,17 @@
 <h1>Log In</h1>
 <h3><%= params['error_message'] %></h3>
+<div style="background-color:#d3d3d3; border:1px solid black; border-radius:10px; padding:10px; width:40%">
 <%= form_tag('/login', method: 'post') do %>
     <%= label_tag(:email, "Email:") %>
     <br><%= text_field_tag(:email) %>    
     <br><%= label_tag(:password, "Password:") %>
     <br><%= password_field_tag(:password) %>
     <br><%= submit_tag("Submit") %>
-<% end %>
+<% end %></div>
 <h1>Sign Up</h1>
 <h3><%= params['error_message'] %></h3>
-<%= form_tag('/signup', method: 'post') do %>
+<div style="background-color:#d3d3d3; border:1px solid black; border-radius:10px; padding:10px; width:40%;">
+    <%= form_tag('/signup', method: 'post') do %>
     <%= hidden_field_tag(:member_number, rand(10 ** 10)) %>
     <%= label_tag(:name, "Name:") %>    
     <br><%= text_field_tag(:name) %>  
@@ -28,4 +30,4 @@
     <br><%= label_tag(:annual_fee, "Default annual fee: $150") %>
     <br><%= hidden_field_tag(:annual_fee, 150) %>
     <br><%= submit_tag("Submit") %>
-<% end %>
+<% end %></div>
