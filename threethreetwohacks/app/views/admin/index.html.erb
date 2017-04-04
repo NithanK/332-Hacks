@@ -16,13 +16,11 @@
 <%end%>
 
 <h2>Cars that need oil service </h2>
-<% if @getMostRecentMan_arr.nil? %>
+<% if @cars_needing_maintenance.empty? %>
     None!
-<% end %>
-<% @getMostRecentMan_arr.each do |help| %>
-
- <%=help['car_VIN'] %> 
- 
- <br>
+<% else %>
+    <% @cars_needing_maintenance.each do |car|%>
+        <%= car %><br>
+    <% end %>
 
 <% end %>
