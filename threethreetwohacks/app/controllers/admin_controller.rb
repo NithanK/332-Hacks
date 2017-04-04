@@ -22,7 +22,7 @@ class AdminController < ApplicationController
          
          
          
-         
+         # SELECT cars_VIN,  MAX(date) FROM maintenance_history group by cars_VIN DESC;
          
          q = "SELECT car_VIN, SUM(distance)  from car_rental_history GROUP BY car_VIN having  SUM(distance) > 5000"
          
