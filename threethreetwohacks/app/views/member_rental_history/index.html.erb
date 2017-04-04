@@ -2,18 +2,19 @@
 <% if @memberRentHist_array.length == 0 %>
     <h2> No rental history for this member! </h2> 
 <% else %> 
-    <table>
+    <table style="width:80%;">
     <tr>
-        <th>Make</th>
-        <th>Model</th>
-        <th>date</th>
+        <td><strong>Make</strong></td>
+        <td><strong>Model</strong></td>
+        <td><strong>Date</strong></td>
+        <td><strong>Number of days</strong></td>
     </tr>
     <% @memberRentHist_array.each do |memberRentHist| %>
         <tr>
             <td> <%= memberRentHist['make'] %></td>
             <td> <%= memberRentHist['model'] %></td>
             <td> <%= memberRentHist['date'] %></td>
-        
+            <td> <%= memberRentHist['length_days'] %></td>
         </tr>
     <% end %>
     </table>

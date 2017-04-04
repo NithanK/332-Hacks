@@ -3,12 +3,12 @@
 
 <h1>Available</h1>
 <% @car_array.each do |unbanned| %>
-    <%= unbanned['make'] %>
+    <%= unbanned['make'] %> <%= unbanned['model'] %> (<%= unbanned['year'] %>)<br>
 <% end %>
 
 <h1>Reserved</h1>
 <% @car_array_remove.each do |banned| %>
-    <%= banned['make'] %>
+    <%= banned['make'] %> <%= banned['model'] %> (<%= banned['year'] %>)<br>
 <% end %>
 
 
