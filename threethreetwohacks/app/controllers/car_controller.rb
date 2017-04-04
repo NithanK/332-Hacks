@@ -204,6 +204,13 @@ class CarController < ApplicationController
 
     end
     
+    def repair_car
+        @client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
+        maintenance_historyQuery = "INSERT INTO maintenance_history(cars_VIN, date, odometer_reading, type, description) values (#{params['vin']},'#{Date.today.to_formatted_s(:db)}',0,'Body Work','dents')"
+        @client.query(maintenance_historyQuery)
+        redirect_to '/admin'
+    end
+    
     def createComment
         client = Mysql2::Client.new(:host => ENV['IP'], :username => ENV['C9_USER'], :database => "KTCS")
         
